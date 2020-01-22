@@ -1,0 +1,161 @@
+﻿<Window x:Class="BeatapChartMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BeatapChartMaker"
+        mc:Ignorable="d"
+        Title="beatap ChartMaker" Height="720" Width="1280">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- (0,0-1) ツールバー Toolbar -->
+        <ToolBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            
+        </ToolBar>
+        
+        <!-- (1,0) ステータス設定画面 DataEditor TabControl -->
+        <TabControl Grid.Row="1" Grid.Column="0" Width="auto">
+            <TabControl.Resources>
+                <Style TargetType="RowDefinition">
+                    <Setter Property="Height" Value="28"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Grid.Column" Value="0"/>
+                    <Setter Property="Padding" Value="2,0,0,0"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="Width" Value="auto"/>
+                    <Setter Property="Height" Value="24"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Grid.Column" Value="1"/>
+                    <Setter Property="Width" Value="auto"/>
+                    <Setter Property="Height" Value="24"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="楽曲データ">
+                <ScrollViewer>
+                    <Grid Width="auto" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0">楽曲タイトル</TextBlock>
+                        <TextBox Grid.Row="0"></TextBox>
+                        <TextBlock Grid.Row="1">楽曲アーティスト</TextBlock>
+                        <TextBox Grid.Row="1"></TextBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="譜面データ">
+                <ScrollViewer>
+                    <Grid Width="auto" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0">譜面タイトル</TextBlock>
+                        <TextBox Grid.Row="0"></TextBox>
+                        <TextBlock Grid.Row="1">譜面作成者</TextBlock>
+                        <TextBox Grid.Row="1"></TextBox>
+                        <TextBlock Grid.Row="2">難易度種別</TextBlock>
+                        <ComboBox Grid.Row="2">
+                            <ComboBoxItem>---</ComboBoxItem>
+                            <ComboBoxItem>EASY</ComboBoxItem>
+                            <ComboBoxItem>NORMAL</ComboBoxItem>
+                            <ComboBoxItem>HARD</ComboBoxItem>
+                            <ComboBoxItem>EXPERT</ComboBoxItem>
+                        </ComboBox>
+                        <TextBlock Grid.Row="3">レベル</TextBlock>
+                        <TextBox Grid.Row="3"></TextBox>
+                        <TextBlock Grid.Row="4">開始時BPM</TextBlock>
+                        <TextBox Grid.Row="4"></TextBox>
+                        <TextBlock Grid.Row="5">オフセット</TextBlock>
+                        <TextBox Grid.Row="5"></TextBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        
+        <!-- (1-2,1) エディタ ChartEditor ScrollViewer(Grid) -->
+        <ScrollViewer  Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+            <Grid Background="Black">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/> <!-- 余白 -->
+                    <ColumnDefinition x:Name="ChartEditor_Lane1" Width="50"/>
+                    <ColumnDefinition x:Name="ChartEditor_Lane2" Width="50"/>
+                    <ColumnDefinition x:Name="ChartEditor_Lane3" Width="50"/>
+                    <ColumnDefinition x:Name="ChartEditor_Lane4" Width="50"/>
+                    <ColumnDefinition x:Name="ChartEditor_Lane5" Width="50"/>
+                    <ColumnDefinition x:Name="ChartEditor_LaneScript"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
+        
+        <!-- (2,0) 譜面リスト ChartList Grid -->
+        <Grid Grid.Row="2" Grid.Column="0" Width="auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="0">譜面を追加</Button>
+            <Button Grid.Row="0" Grid.Column="1">選択中の譜面を削除</Button>
+            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="auto">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="譜面タイトル" Width="100"/>
+                        <GridViewColumn Header="譜面作成者" Width="100"/>
+                        <GridViewColumn Header="難易度" Width="60"/>
+                        <GridViewColumn Header="レベル" Width="auto"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+    </Grid>
+</Window>
