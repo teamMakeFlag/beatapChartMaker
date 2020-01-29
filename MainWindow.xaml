@@ -9,21 +9,42 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="104*"/>
+            <RowDefinition Height="107*"/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="300"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- (0,0-1) ツールバー Toolbar -->
         <ToolBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            
+            <Button Click="NewProjectButton_Clicked">
+                <Image Source="Media/Graphics/Icon/NewProject.png"/>
+            </Button>
+            <Button Click="OpenProjectButton_Clicked">
+                <Image Source="Media/Graphics/Icon/OpenFile.png"/>
+            </Button>
+            <Button>
+                <Image Source="Media/Graphics/Icon/Save.png"/>
+            </Button>
+            <Separator/>
+            <Button>
+                <Image Source="Media/Graphics/Icon/SingleNote.png"/>
+            </Button>
+            <Button>
+                <Image Source="Media/Graphics/Icon/DoubleNote.png"/>
+            </Button>
+            <Button>
+                <Image Source="Media/Graphics/Icon/LongNote.png"/>
+            </Button>
+            <Button>
+                <Image Source="Media/Graphics/Icon/Eraser.png"/>
+            </Button>
         </ToolBar>
-        
+
         <!-- (1,0) ステータス設定画面 DataEditor TabControl -->
         <TabControl Grid.Row="1" Grid.Column="0" Width="auto">
             <TabControl.Resources>
@@ -64,9 +85,15 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0">楽曲タイトル</TextBlock>
-                        <TextBox Grid.Row="0"></TextBox>
+                        <TextBox Name="SongNameTBox" HorizontalAlignment="Left" TextChanged="SongNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185"></TextBox>
                         <TextBlock Grid.Row="1">楽曲アーティスト</TextBlock>
-                        <TextBox Grid.Row="1"></TextBox>
+                        <TextBox Name="ArtistNameTBox" HorizontalAlignment="Left" TextChanged="ArtistNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,5,0,0" Grid.Row="1"/>
+                        <TextBlock Grid.Row="1" Margin="0,36,0,-23"><Run Text="楽曲ファイルパス"/></TextBlock>
+                        <TextBox Name="AudioFilePathTBox" HorizontalAlignment="Left" TextChanged="AudioFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,34,0,-29" Grid.Row="1"/>
+                        <TextBlock Grid.Row="1" Margin="0,89,0,-76"><Run Text="画像ファイルパス"/></TextBlock>
+                        <TextBox Name="ThumbFilePathTBox" HorizontalAlignment="Left" TextChanged="ThumbFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,87,0,-82" Grid.Row="1"/>
+                        <Button Name="AudioRefButton" Grid.ColumnSpan="2" Click="AudioRefButton_Clicked" Content="参照" HorizontalAlignment="Left" Height="19" Margin="10,63,0,-53" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.502,2.421" Grid.Row="1"/>
+                        <Button Name="ThumbRefButton" Grid.ColumnSpan="2" Click="ThumbRefButton_Clicked" Content="参照" HorizontalAlignment="Left" Height="19" Margin="10,116,0,-106" VerticalAlignment="Top" Width="257" Grid.Row="1"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -85,29 +112,25 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0">譜面タイトル</TextBlock>
-                        <TextBox Grid.Row="0"></TextBox>
+                        <TextBlock Grid.Row="0">譜面名</TextBlock>
+                        <TextBox Name="ChartNameTBox" HorizontalAlignment="Left" TextChanged="ChartNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0"></TextBox>
                         <TextBlock Grid.Row="1">譜面作成者</TextBlock>
-                        <TextBox Grid.Row="1"></TextBox>
-                        <TextBlock Grid.Row="2">難易度種別</TextBlock>
-                        <ComboBox Grid.Row="2">
-                            <ComboBoxItem>---</ComboBoxItem>
-                            <ComboBoxItem>EASY</ComboBoxItem>
-                            <ComboBoxItem>NORMAL</ComboBoxItem>
-                            <ComboBoxItem>HARD</ComboBoxItem>
-                            <ComboBoxItem>EXPERT</ComboBoxItem>
-                        </ComboBox>
+                        <TextBox Name="ChartDesignerNameTBox" HorizontalAlignment="Left" TextChanged="ChartDesignerNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="1"></TextBox>
+                        <TextBlock Grid.Row="2">判定</TextBlock>
+                        <TextBox Name="ChartJudgeTBox" HorizontalAlignment="Left" TextChanged="ChartJudgeTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="2"></TextBox>
                         <TextBlock Grid.Row="3">レベル</TextBlock>
-                        <TextBox Grid.Row="3"></TextBox>
-                        <TextBlock Grid.Row="4">開始時BPM</TextBlock>
-                        <TextBox Grid.Row="4"></TextBox>
-                        <TextBlock Grid.Row="5">オフセット</TextBlock>
-                        <TextBox Grid.Row="5"></TextBox>
+                        <TextBox Name="ChartLevelTBox" PreviewTextInput="ChartLevelTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartLevelTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="3"></TextBox>
+                        <TextBlock Grid.Row="4">基本BPM</TextBlock>
+                        <TextBox Name="ChartStandardBPMTBox" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartStandardBPMTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="4"></TextBox>
+                        <TextBlock Grid.Row="5">オフセット値</TextBlock>
+                        <TextBox Name="ChartOffsetTBox" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartOffsetTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="5"></TextBox>
+                        <TextBlock Grid.Row="5" Margin="0,6.52,0,6.48"><Run Text="オフセット値"/></TextBlock>
+                        <TextBox x:Name="ChartOffsetTBox_Copy" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartOffsetTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="5"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        
+
         <!-- (1-2,1) エディタ ChartEditor ScrollViewer(Grid) -->
         <ScrollViewer  Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
             <Grid Background="Black">
@@ -121,7 +144,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/> <!-- 余白 -->
+                    <ColumnDefinition/>
+                    <!-- 余白 -->
                     <ColumnDefinition x:Name="ChartEditor_Lane1" Width="50"/>
                     <ColumnDefinition x:Name="ChartEditor_Lane2" Width="50"/>
                     <ColumnDefinition x:Name="ChartEditor_Lane3" Width="50"/>
@@ -132,7 +156,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>
-        
+
         <!-- (2,0) 譜面リスト ChartList Grid -->
         <Grid Grid.Row="2" Grid.Column="0" Width="auto">
             <Grid.RowDefinitions>
