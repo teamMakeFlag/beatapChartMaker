@@ -87,12 +87,25 @@ namespace BeatapChartMaker
                 {
                     String path = WSP + WorkSpaceDirectoryName + "\\" + difs[j] + ".csv";
                     StreamWriter cfs = new StreamWriter(@path, false, System.Text.Encoding.Default);
-                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + "," + StandardBPM + ",0," + juds[j] + "\n");
-                    cfs.Write("START,,,,,\n");
-                    cfs.Write("END,,,,,\n");
+                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + "," + StandardBPM + ",0," + juds[j] + ",\n");
+                    cfs.Write("START,,,,,,\n");
+                    cfs.Write("END,,,,,,\n");
                     cfs.Close();
                 }
-                //←親ウィンドウのOpenProjectを呼ぶ
+                if (File.Exists(System.IO.Path.GetFullPath("config.ini")))
+                {
+                    ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
+                    rwIni.WriteString("Path", "DefaultWorkSpace", WSP + WorkSpaceDirectoryName);
+                }
+                else
+                {
+                    StreamWriter cfs = new StreamWriter(@System.IO.Path.GetFullPath("config.ini"), false, System.Text.Encoding.Default);
+                    cfs.Close();
+                    ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
+                    rwIni.WriteString("Path", "DefaultWorkSpace", WSP + WorkSpaceDirectoryName);
+                }
+                this.Owner.Activate();
+                ((MainWindow)this.Owner).OpenProject(WSP + WorkSpaceDirectoryName);
                 this.Close();
             }
             else MessageBox.Show("不正な値です.すべての欄に記入したか確かめてください.");

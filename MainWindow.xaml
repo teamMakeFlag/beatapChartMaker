@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="beatap ChartMaker" Height="720" Width="1280">
+        Title="Beatap譜面エディタ" Height="720" Width="810.5">
 
-    <Grid>
+    <Grid Margin="0,0,8,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition Height="104*"/>
-            <RowDefinition Height="107*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="312*"/>
+            <RowDefinition Height="321*"/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,26 +21,26 @@
 
         <!-- (0,0-1) ツールバー Toolbar -->
         <ToolBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button Click="NewProjectButton_Clicked">
+            <Button Click="NewProjectButton_Clicked" ToolTip="新規プロジェクトを作成">
                 <Image Source="Media/Graphics/Icon/NewProject.png"/>
             </Button>
-            <Button Click="OpenProjectButton_Clicked">
+            <Button Click="OpenProjectButton_Clicked" ToolTip="プロジェクトを開く">
                 <Image Source="Media/Graphics/Icon/OpenFile.png"/>
             </Button>
-            <Button>
+            <Button ToolTip="プロジェクトを保存">
                 <Image Source="Media/Graphics/Icon/Save.png"/>
             </Button>
             <Separator/>
-            <Button>
+            <Button ToolTip="シングルノート">
                 <Image Source="Media/Graphics/Icon/SingleNote.png"/>
             </Button>
-            <Button>
+            <Button ToolTip="ダブルノート">
                 <Image Source="Media/Graphics/Icon/DoubleNote.png"/>
             </Button>
-            <Button>
+            <Button ToolTip="ロングノート">
                 <Image Source="Media/Graphics/Icon/LongNote.png"/>
             </Button>
-            <Button>
+            <Button ToolTip="消しゴム">
                 <Image Source="Media/Graphics/Icon/Eraser.png"/>
             </Button>
         </ToolBar>
@@ -74,8 +74,8 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Header="楽曲データ">
-                <ScrollViewer>
-                    <Grid Width="auto" Background="#FFE5E5E5">
+                <ScrollViewer Margin="0,0,0,-1">
+                    <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
@@ -99,7 +99,7 @@
             </TabItem>
             <TabItem Header="譜面データ">
                 <ScrollViewer>
-                    <Grid Width="auto" Background="#FFE5E5E5">
+                    <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
@@ -124,61 +124,60 @@
                         <TextBox Name="ChartStandardBPMTBox" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartStandardBPMTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="4"></TextBox>
                         <TextBlock Grid.Row="5">オフセット値</TextBlock>
                         <TextBox Name="ChartOffsetTBox" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartOffsetTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="5"></TextBox>
-                        <TextBlock Grid.Row="5" Margin="0,6.52,0,6.48"><Run Text="オフセット値"/></TextBlock>
-                        <TextBox x:Name="ChartOffsetTBox_Copy" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartOffsetTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="5"/>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="エディタ">
+                <ScrollViewer>
+                    <Grid Width="auto" Background="#FFFaFaFF">
+                        <TextBox Name="denom" PreviewTextInput="denom_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="6,51,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="分の" HorizontalAlignment="Left" Margin="18,48,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="mole" PreviewTextInput="mole_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="54,51,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="拍子" HorizontalAlignment="Left" Margin="67,48,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="sep" PreviewTextInput="sep_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="109,51,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="25"/>
+                        <Label Content="分割" HorizontalAlignment="Left" Margin="135,48,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <Button Content="末尾に小節作成" Click="CreateMeasureButton_Clicked" HorizontalAlignment="Left" Margin="174,52,0,0" VerticalAlignment="Top" Width="93"/>
+                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="4,36,0,0" Stroke="Black" VerticalAlignment="Top" Width="261"/>
+                        <Button Content="選択中の小節を削除" HorizontalAlignment="Left" Margin="6,106,0,0" VerticalAlignment="Top" Width="124"/>
+                        <Button Content="選択中の小節をクリア" HorizontalAlignment="Left" Margin="135,106,0,0" VerticalAlignment="Top" Width="132"/>
+                        <TextBox x:Name="denom_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="104,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="分の" HorizontalAlignment="Left" Margin="116,7,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="mole_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="152,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="拍子" HorizontalAlignment="Left" Margin="165,7,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="sep_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="207,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="25"/>
+                        <Label Content="分割" HorizontalAlignment="Left" Margin="233,7,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <Label Content="選択中の小節情報" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
+                        <Button Content="選択中の小節前に作成" HorizontalAlignment="Left" Margin="6,79,0,0" VerticalAlignment="Top" Width="124"/>
+                        <Button Content="選択中の小節後に作成" HorizontalAlignment="Left" Margin="135,79,0,0" VerticalAlignment="Top" Width="132"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-
         <!-- (1-2,1) エディタ ChartEditor ScrollViewer(Grid) -->
-        <ScrollViewer  Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
-            <Grid Background="Black">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Grid x:Name="ChartDataGrid" ShowGridLines="True" Background="#000000" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <!-- 余白 -->
-                    <ColumnDefinition x:Name="ChartEditor_Lane1" Width="50"/>
-                    <ColumnDefinition x:Name="ChartEditor_Lane2" Width="50"/>
-                    <ColumnDefinition x:Name="ChartEditor_Lane3" Width="50"/>
-                    <ColumnDefinition x:Name="ChartEditor_Lane4" Width="50"/>
-                    <ColumnDefinition x:Name="ChartEditor_Lane5" Width="50"/>
-                    <ColumnDefinition x:Name="ChartEditor_LaneScript"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>
-
         <!-- (2,0) 譜面リスト ChartList Grid -->
         <Grid Grid.Row="2" Grid.Column="0" Width="auto">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition/>
+                <RowDefinition Height="321"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0">譜面を追加</Button>
-            <Button Grid.Row="0" Grid.Column="1">選択中の譜面を削除</Button>
-            <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="auto">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="譜面タイトル" Width="100"/>
-                        <GridViewColumn Header="譜面作成者" Width="100"/>
-                        <GridViewColumn Header="難易度" Width="60"/>
-                        <GridViewColumn Header="レベル" Width="auto"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid x:Name="chartListGrid" ItemsSource="{Binding Path=Charts}" SelectedCellsChanged="ChartListGrid_SelectedCellsChanged" HorizontalAlignment="Left" Width="300" Margin="0,36,0,0" IsReadOnly="True" Background="#FFFaFaFF"/>
+            <Button Name="SelectChartButton" Content="選択譜面編集" Click="SelectChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="36"/>
+            <Button Name="DeleteChartButton" Content="選択譜面削除" Click="DeleteChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Height="36" Margin="107,0,0,0"/>
+            <Button Name="CreateChartButton" Content="新規譜面" Click="CreateChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="36" Margin="208,0,0,0"/>
         </Grid>
 
     </Grid>
