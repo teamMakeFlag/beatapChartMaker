@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Forms = System.Windows.Forms;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace BeatapChartMaker
 {
@@ -24,7 +25,6 @@ namespace BeatapChartMaker
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static String WSP = "WorkSpace\\";
         private string[] ApprovalExt = { ".csv", ".txt" };
         private string[] ApprovalAudioExt = { ".mp3", ".ogg", ".wav", ".aif" };
         private string[] ApprovalImageExt = { ".psd", ".tga", ".tiff", ".png", ".pict", ".jpg", ".jpeg", ".iff", ".hdr", ".gif", ".exr", ".bmp" };
@@ -32,8 +32,9 @@ namespace BeatapChartMaker
         private String SongName = "";
         private String ArtistName = "";
         private String AudioFilePath = "";
+        private String SavedAudioFilePath = "";
         private String ThumbFilePath = "";
-        private String ChartPath = "";
+        private String SavedThumbFilePath = "";
         private String ChartName = "";
         private String ChartJudge = "";
         private String ChartDesignerName = "";
@@ -52,14 +53,20 @@ namespace BeatapChartMaker
         private String DefaultWorkSpacePath = "";
         //      譜面       行数  小節       分子 分母 分割  拍 レーン ノーツ
         private List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
-        private ChartListDataGrid cldg = new ChartListDataGrid();
+        readonly List<ChartsData> cdlist = new List<ChartsData>();
+        private int SelectedMeasureIndex = -1;
+        private int PenMode = -1;
 
         public MainWindow()
         {
             InitializeComponent();
             GetConfigData();
             if (DefaultWorkSpacePath != "") OpenProject(DefaultWorkSpacePath);
-            this.DataContext = cldg;
+        }
+
+        private void UpdateDataList()
+        {
+            this.chartListGrid.ItemsSource = new ReadOnlyCollection<ChartsData>(cdlist);
         }
 
         private void GetConfigData()
@@ -118,37 +125,7 @@ namespace BeatapChartMaker
                 ChartLevelTBox.Text = ChartLevels[_SelectedChart.ID].ToString();
                 ChartStandardBPMTBox.Text = ChartStandardBPMs[_SelectedChart.ID].ToString();
                 ChartOffsetTBox.Text = ChartOffsets[_SelectedChart.ID].ToString();
-                int count = 0;
-                for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count; i++)
-                {
-                    for(int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
-                    {
-                        ChartDataGrid.RowDefinitions.Add(new RowDefinition());
-                        if (j == 0)
-                        {
-                            Button label = new Button();
-                            label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
-                            label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
-                            String d = ChartData[_SelectedChart.ID].Item2[i].Item2.ToString();
-                            String m = ChartData[_SelectedChart.ID].Item2[i].Item1.ToString();
-                            String s = ChartData[_SelectedChart.ID].Item2[i].Item3.ToString();
-                            label.Content = m + "/" + d;
-                            label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s);
-                            Grid.SetColumn(label, 0);
-                            Grid.SetRow(label, count);
-                            ChartDataGrid.Children.Add(label);
-                        }
-                        for (int k = 1; k < 6; k++)
-                        {
-                            Button note = new Button();
-                            note.Content = ChartData[_SelectedChart.ID].Item2[i].Item4[j][k-1].ToString();
-                            Grid.SetColumn(note, k);
-                            Grid.SetRow(note, count);
-                            ChartDataGrid.Children.Add(note);
-                        }
-                        count++;
-                    }
-                }
+                DrawChartData();
             }
         }
 
@@ -161,7 +138,11 @@ namespace BeatapChartMaker
         }
         private void CreateChartButton_Clicked(object sender, RoutedEventArgs e)
         {
-            //
+            /*StreamWriter cfs = new StreamWriter(@DefaultWorkSpacePath + "\\" + ChartName + ".csv", false, System.Text.Encoding.Default);
+            cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",\n");
+            cfs.Write("START,,,,,,\n");
+            cfs.Write("END,,,,,,\n");
+            cfs.Close();*/
         }
 
         private void CreateMeasureButton_Clicked(object sender, RoutedEventArgs e)
@@ -173,25 +154,38 @@ namespace BeatapChartMaker
                 {
                     List<int>row = new List<int>();
                     ChartDataGrid.RowDefinitions.Add(new RowDefinition());
+                    int index = ChartData[_SelectedChart.ID].Item2.Count;
                     if (i == 0)
                     {
                         Button label = new Button();
-                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
-                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
                         String d = denom.Text;
                         String m = mole.Text;
                         String s = sep.Text;
-                        label.Content = m + "/" + d;
-                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s);
-                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender,denom.Text,mole.Text,sep.Text);
+                        label.Content = index+1;
+                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s, index+1);
                         Grid.SetColumn(label, 0);
                         Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1);
+                        ChartDataGrid.Children.Add(label);
+                    }
+                    else
+                    {
+                        Label label = new Label();
+                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
+                        label.Content = " ";
+                        Grid.SetColumn(label, 0);
+                        Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1+i);
                         ChartDataGrid.Children.Add(label);
                     }
                     for (int j = 1; j < 6; j++)
                     {
                         Button note = new Button();
-                        note.Content = 0;
+                        note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        int t = i;
+                        int l = j - 1;
+                        note.Click += (lsender, le) => NoteButton_Clicked(lsender, index, t, l);
                         Grid.SetColumn(note, j);
                         Grid.SetRow(note, i + ChartData[_SelectedChart.ID].Item1);
                         ChartDataGrid.Children.Add(note);
@@ -204,11 +198,148 @@ namespace BeatapChartMaker
             }
         }
 
-        private void MeasureButton_Clicked(object sender,String d, String m, String s)
+        private void MeasureButton_Clicked(object sender,String d, String m, String s, int index)
         {
             denom_R.Text = d;
             mole_R.Text = m;
             sep_R.Text = s;
+            SelectedMeasureIndex = index-1;
+            SelectedMeasureIndexTBox.Text = (SelectedMeasureIndex+1).ToString();
+        }
+
+        private void NoteButton_Clicked(object sender, int measure, int time, int lane)
+        {
+            if (PenMode != -1)
+            {
+                switch (PenMode)
+                {
+                    case 0:
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        break;
+                    case 1:
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 54, 255));
+                        break;
+                    case 2:
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                        break;
+                    case 3:
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 13, 13));
+                        break;
+                    default:
+                        break;
+                }
+                ChartData[_SelectedChart.ID].Item2[measure].Item4[time][lane] = PenMode;
+            }
+        }
+
+        private void AudioRefResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            AudioFilePathTBox.Text = SavedAudioFilePath;
+            AudioFilePath = SavedAudioFilePath;
+        }
+
+        private void ThumbRefResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ThumbFilePathTBox.Text = SavedThumbFilePath;
+            ThumbFilePath = SavedThumbFilePath;
+        }
+
+        private void SaveMusicDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            StreamWriter fs = new StreamWriter(@DefaultWorkSpacePath + "\\music.txt", false, System.Text.Encoding.Default);
+            fs.Write(SongName + "\n");
+            fs.Write(ArtistName);
+            fs.Close();
+        }
+
+        private void CreateMeasureBeforeSelectedButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_SelectedChart != null && SelectedMeasureIndex != -1)
+            {
+                List<List<int>> measure = new List<List<int>>();
+                for(int i = 0; i < int.Parse(sep.Text); i++)
+                {
+                    List<int> time = new List<int>();
+                    for (int j = 0; j < 5; j++) time.Add(0);
+                    measure.Add(time);
+                }
+                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, Tuple.Create<int, int, int, List<List<int>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                DrawChartData();
+            }
+        }
+
+        private void CreateMeasureAfterSelectedButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_SelectedChart != null && SelectedMeasureIndex != -1)
+            {
+                List<List<int>> measure = new List<List<int>>();
+                for (int i = 0; i < int.Parse(sep.Text); i++)
+                {
+                    List<int> time = new List<int>();
+                    for (int j = 0; j < 5; j++) time.Add(0);
+                    measure.Add(time);
+                }
+                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex+1, Tuple.Create<int, int, int, List<List<int>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                DrawChartData();
+            }
+        }
+
+        private void DeleteSelectedMeasureButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_SelectedChart != null && SelectedMeasureIndex != -1)
+            {
+                int ds = ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item3;
+                ChartData[_SelectedChart.ID].Item2.RemoveAt(SelectedMeasureIndex);
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 - ds, ChartData[_SelectedChart.ID].Item2);
+                DrawChartData();
+            }
+        }
+
+        private void SetPenModeSingleNote_Click(object sender, RoutedEventArgs e)
+        {
+            PenMode = 1;
+        }
+
+        private void SetPenModeLongNote_Click(object sender, RoutedEventArgs e)
+        {
+            PenMode = 2;
+        }
+
+        private void SetPenModeDoubleNote_Click(object sender, RoutedEventArgs e)
+        {
+            PenMode = 3;
+        }
+
+        private void SetPenModeEraseNote_Click(object sender, RoutedEventArgs e)
+        {
+            PenMode = 0;
+        }
+        
+        private void SaveChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_SelectedChart != null)
+            {
+                StreamWriter cfs = new StreamWriter(@DefaultWorkSpacePath + "\\" + ChartName + ".csv", false, System.Text.Encoding.Default);
+                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",\n");
+                cfs.Write("START,,,,,,\n");
+                for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count; i++)
+                {
+                    cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + ",,,,\n");
+                    for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
+                    {
+                        for (int k = 0; k < 5; k++)
+                        {
+                            cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j][k]);
+                            cfs.Write(",");
+                        }
+                        cfs.Write(",\n");
+                    }
+                }
+                cfs.Write("END,,,,,,\n");
+                cfs.Close();
+            }
         }
 
         string CheckExt(string str)
@@ -227,13 +358,78 @@ namespace BeatapChartMaker
             }
             return false;
         }
+        private void DrawChartData()
+        {
+            ChartDataGrid.Children.Clear();
+            int count = 0;
+            for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count; i++)
+            {
+                for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
+                {
+                    ChartDataGrid.RowDefinitions.Add(new RowDefinition());
+                    if (j == 0)
+                    {
+                        Button label = new Button();
+                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
+                        String d = ChartData[_SelectedChart.ID].Item2[i].Item2.ToString();
+                        String m = ChartData[_SelectedChart.ID].Item2[i].Item1.ToString();
+                        String s = ChartData[_SelectedChart.ID].Item2[i].Item3.ToString();
+                        int index = i+1;
+                        label.Content = index;
+                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s, index);
+                        Grid.SetColumn(label, 0);
+                        Grid.SetRow(label, count);
+                        ChartDataGrid.Children.Add(label);
+                    }
+                    else
+                    {
+                        Label label = new Label();
+                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
+                        label.Content = " ";
+                        Grid.SetColumn(label, 0);
+                        Grid.SetRow(label, count);
+                        ChartDataGrid.Children.Add(label);
+                    }
+                    for (int k = 1; k < 6; k++)
+                    {
+                        Button note = new Button();
+                        switch(ChartData[_SelectedChart.ID].Item2[i].Item4[j][k - 1])
+                        {
+                            case 0:
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                                break;
+                            case 1:
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 54, 255));
+                                break;
+                            case 2:
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                break;
+                            case 3:
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 13, 13));
+                                break;
+                            default:
+                                break;
+                        }
+                        int m = i;
+                        int t = j;
+                        int l = k - 1;
+                        note.Click += (lsender, le) => NoteButton_Clicked(lsender, m, t, l);
+                        Grid.SetColumn(note, k);
+                        Grid.SetRow(note, count);
+                        ChartDataGrid.Children.Add(note);
+                    }
+                    count++;
+                }
+            }
+        }
         private void ClearAllVariable()
         {
             SongName = "";
             ArtistName = "";
             AudioFilePath = "";
             ThumbFilePath = "";
-            ChartPath = "";
             ChartName = "";
             ChartJudge = "";
             ChartDesignerName = "";
@@ -247,6 +443,7 @@ namespace BeatapChartMaker
             ChartStandardBPMs = new List<int>();
             ChartLevels = new List<int>();
             ChartOffsets = new List<int>();
+            ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
             _SelectedChart = null;
             SelectedChart = null;
         }
@@ -258,8 +455,8 @@ namespace BeatapChartMaker
             Boolean isThumbFileRead = false;
             int chartCount = 0;
             DirectoryInfo directory = new DirectoryInfo(ProjectPath);
+            cdlist.Clear();
             ClearAllVariable();
-            cldg.ClearDummy();
             foreach (FileInfo inf in directory.GetFiles())
             {
                 string infstr = inf + "";
@@ -277,7 +474,7 @@ namespace BeatapChartMaker
                     }
                     else if (isAudioFileRead)
                     {
-                        Forms.MessageBox.Show("曲情報が記載されたテキストファイルが2個以上あります!\n修正してください!", "プロジェクト読み込みエラー", Forms.MessageBoxButtons.OK, Forms.MessageBoxIcon.Error);
+                        Forms.MessageBox.Show("曲情報が記載されたと推測されるテキストファイルが2個以上あります!\n修正してください!", "プロジェクト読み込みエラー", Forms.MessageBoxButtons.OK, Forms.MessageBoxIcon.Error);
                         return;
                     }
                 }
@@ -286,6 +483,7 @@ namespace BeatapChartMaker
                     if (!isAudioFileRead)
                     {
                         AudioFilePath = infstr;
+                        SavedAudioFilePath = infstr;
                         isAudioFileRead = true;
                     }
                     else if (isAudioFileRead)
@@ -357,7 +555,7 @@ namespace BeatapChartMaker
                         i++;
                     }
                     ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(rcount, chartData));
-                    cldg.AddChart(chartCount, ChartNames[(int)chartCount], ChartDesigners[(int)chartCount], ChartLevels[(int)chartCount]);
+                    cdlist.Add(new ChartsData(chartCount, ChartNames[(int)chartCount], ChartDesigners[(int)chartCount], ChartLevels[(int)chartCount]));
                     chartCount++;
                 }
                 else if (CheckExt(ApprovalImageExt, infstr))
@@ -365,6 +563,7 @@ namespace BeatapChartMaker
                     if (!isThumbFileRead)
                     {
                         ThumbFilePath = infstr;
+                        SavedThumbFilePath = infstr;
                         isThumbFileRead = true;
                     }
                     else if (isThumbFileRead)
@@ -378,7 +577,15 @@ namespace BeatapChartMaker
             ArtistNameTBox.Text = ArtistName;
             AudioFilePathTBox.Text = AudioFilePath;
             ThumbFilePathTBox.Text = ThumbFilePath;
-            cldg.SetCharts();
+            DefaultWorkSpacePath = ProjectPath;
+            UpdateDataList();
+            if (!File.Exists(System.IO.Path.GetFullPath("config.ini")))
+            {
+                StreamWriter cfs = new StreamWriter(@System.IO.Path.GetFullPath("config.ini"), false, System.Text.Encoding.Default);
+                cfs.Close();
+            }
+            ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
+            rwIni.WriteString("Path", "DefaultWorkSpace", DefaultWorkSpacePath);
             this.Title = "Beatap譜面エディタ - " + ProjectPath.Substring(ProjectPath.LastIndexOf('\\')+1, ProjectPath.Length - ProjectPath.LastIndexOf('\\') - 1);
         }
 
