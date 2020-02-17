@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="NewChartWindow" Height="450" Width="800">
+        Title="新規譜面作成" Height="256" Width="231.833" ResizeMode="NoResize">
     <Grid>
-        
+        <TextBox Name="ChartNameTBox" HorizontalAlignment="Left" Height="23" Margin="96,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="DesignerNameTBox" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="ChartLevelTBox" PreviewTextInput="ChartLevelTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="96,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="ChartStandardBPMTBox" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" Height="24" Margin="96,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="ChartOffsetTBox" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" Height="24" Margin="96,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Name="CreateChartButton" Click="CreateChartButton_Click" Content="作成" HorizontalAlignment="Left" Margin="142,196,0,0" VerticalAlignment="Top" Width="74"/>
+        <Label Content="譜面名" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="制作者名" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="判定" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
+        <Label Content="レベル" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
+        <Label Content="基本BPM" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
+        <Label Content="オフセット値" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top"/>
+        <ComboBox Name="judgecombo" HorizontalAlignment="Left" Margin="96,72,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Name="ErrorLabel" Foreground="#ff0000" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="127"/>
     </Grid>
 </Window>

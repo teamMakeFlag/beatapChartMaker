@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Forms = System.Windows.Forms;
 using Microsoft.Win32;
+using Microsoft.VisualBasic.FileIO;
 using System.Collections.ObjectModel;
 
 namespace BeatapChartMaker
@@ -50,7 +51,8 @@ namespace BeatapChartMaker
         private List<int> ChartOffsets = new List<int>();
         private ChartsData _SelectedChart;
         private ChartsData SelectedChart;
-        private String DefaultWorkSpacePath = "";
+        private int EdittingID = -1;
+        public String DefaultWorkSpacePath = "";
         //      譜面       行数  小節       分子 分母 分割  拍 レーン ノーツ
         private List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
         readonly List<ChartsData> cdlist = new List<ChartsData>();
@@ -98,6 +100,9 @@ namespace BeatapChartMaker
             {
                 ProjectDirectoryPath = fbd.SelectedPath;
                 OpenProject(ProjectDirectoryPath);
+                ChartDataGrid.Children.Clear();
+                SelectedChart = null;
+                _SelectedChart = null;
             }
         }
 
@@ -119,6 +124,7 @@ namespace BeatapChartMaker
             if (SelectedChart != null)
             {
                 _SelectedChart = SelectedChart;
+                EdittingID = _SelectedChart.ID;
                 ChartNameTBox.Text = ChartNames[_SelectedChart.ID];
                 ChartDesignerNameTBox.Text = ChartDesigners[_SelectedChart.ID];
                 ChartJudgeTBox.Text = ChartJudges[_SelectedChart.ID];
@@ -133,16 +139,51 @@ namespace BeatapChartMaker
         {
             if(SelectedChart != null && Forms.DialogResult.Yes == Forms.MessageBox.Show("選択した譜面\n「"+ChartNames[SelectedChart.ID]+"」を削除してもいいですか？", "確認", Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Exclamation, Forms.MessageBoxDefaultButton.Button2))
             {
-                MessageBox.Show("削除しました");
+                if (EdittingID == SelectedChart.ID)
+                {
+                    ChartDataGrid.Children.Clear();
+                    ChartName = "";
+                    ChartJudge = "";
+                    ChartDesignerName = "";
+                    ChartStandardBPM = 0;
+                    ChartLevel = 0;
+                    ChartOffset = 0;
+                    EdittingID = -1;
+                    SelectedMeasureIndex = -1;
+                    PenMode = -1;
+                    ChartNameTBox.Text = "";
+                    ChartJudgeTBox.Text = "";
+                    ChartDesignerNameTBox.Text = "";
+                    ChartStandardBPMTBox.Text = "";
+                    ChartLevelTBox.Text = "";
+                    ChartOffsetTBox.Text = "";
+                    denom.Text = "";
+                    denom_R.Text = "";
+                    mole.Text = "";
+                    mole_R.Text = "";
+                    sep.Text = "";
+                    sep_R.Text = "";
+                    _SelectedChart = null;
+                }
+                try
+                {
+                    FileSystem.DeleteFile(System.IO.Path.GetFullPath(ChartPaths[SelectedChart.ID]),Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                }
+                catch (System.IO.FileNotFoundException ex)
+                {
+                    MessageBox.Show("削除対象がすでに移動もしくは削除されたようです\n" + ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                MessageBox.Show("譜面は正常に削除されました.\n元に戻したいときはごみ箱よりどうぞ!","システムメッセージ");
+                cdlist.RemoveAt(SelectedChart.ID);
+                SelectedChart = null;
+                UpdateDataList();
             }
         }
         private void CreateChartButton_Clicked(object sender, RoutedEventArgs e)
         {
-            /*StreamWriter cfs = new StreamWriter(@DefaultWorkSpacePath + "\\" + ChartName + ".csv", false, System.Text.Encoding.Default);
-            cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",\n");
-            cfs.Write("START,,,,,,\n");
-            cfs.Write("END,,,,,,\n");
-            cfs.Close();*/
+            NewChartWindow ncw = new NewChartWindow();
+            ncw.Owner = this;
+            ncw.Show();
         }
 
         private void CreateMeasureButton_Clicked(object sender, RoutedEventArgs e)
@@ -321,7 +362,7 @@ namespace BeatapChartMaker
         {
             if (_SelectedChart != null)
             {
-                StreamWriter cfs = new StreamWriter(@DefaultWorkSpacePath + "\\" + ChartName + ".csv", false, System.Text.Encoding.Default);
+                StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
                 cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",\n");
                 cfs.Write("START,,,,,,\n");
                 for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count; i++)
@@ -342,6 +383,72 @@ namespace BeatapChartMaker
             }
         }
 
+        public void LoadChart(String path)
+        {
+            StreamReader sr = new StreamReader(@path, System.Text.Encoding.Default);
+            string value = sr.ReadToEnd();
+            sr.Close();
+            string[] values = value.Split(',');
+            if (values.Length < 6)
+            {
+                Forms.MessageBox.Show("譜面ファイルに不正なフォーマットが使われています!\n修正または削除してください!\nError occurred in " + path + " file.", "プロジェクト読み込みエラー", Forms.MessageBoxButtons.OK, Forms.MessageBoxIcon.Error);
+                return;
+            }
+            ChartPaths.Add(path);
+            ChartNames.Add(values[0]);
+            ChartLevels.Add(int.Parse(values[1]));
+            ChartDesigners.Add(values[2]);
+            ChartStandardBPMs.Add(int.Parse(values[3]));
+            ChartOffsets.Add(int.Parse(values[4]));
+            ChartJudges.Add(values[5]);
+            int i = 12;
+            int measure_d = 0;
+            int measure_m = 0;
+            int separate = 0;
+            int timeIndex = 1;
+            int max_timeIndex = 0;
+            int rcount = 0;
+            List<Tuple<int, int, int, List<List<int>>>> chartData = new List<Tuple<int, int, int, List<List<int>>>>();
+            List<List<int>> measureData = new List<List<int>>();
+            while (!values[i].Contains("END"))
+            {
+                if (measure_d == 0)
+                {
+                    measure_m = int.Parse(values[i]);
+                    measure_d = int.Parse(values[i + 1]);
+                    separate = int.Parse(values[i + 2]);
+                    rcount += separate;
+                    max_timeIndex = separate;
+                    i += 5;
+                }
+                else
+                {
+                    List<int> timeData = new List<int>();
+                    timeData.Add(int.Parse(values[i]));
+                    timeData.Add(int.Parse(values[i + 1]));
+                    timeData.Add(int.Parse(values[i + 2]));
+                    timeData.Add(int.Parse(values[i + 3]));
+                    timeData.Add(int.Parse(values[i + 4]));
+                    measureData.Add(timeData);
+                    i += 5;
+                    if (timeIndex == max_timeIndex)
+                    {
+                        chartData.Add(Tuple.Create<int, int, int, List<List<int>>>(measure_m, measure_d, separate, measureData));
+                        measureData = new List<List<int>>();
+                        measure_d = 0;
+                        measure_m = 0;
+                        separate = 0;
+                        max_timeIndex = 0;
+                        timeIndex = 1;
+                    }
+                    else timeIndex++;
+                }
+                i++;
+            }
+            ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(rcount, chartData));
+            cdlist.Add(new ChartsData(ChartData.Count - 1, ChartNames[ChartData.Count - 1], ChartDesigners[ChartData.Count - 1], ChartLevels[ChartData.Count - 1]));
+            UpdateDataList();
+        }
         string CheckExt(string str)
         {
             foreach (string ext in ApprovalExt)
@@ -436,6 +543,26 @@ namespace BeatapChartMaker
             ChartStandardBPM = 0;
             ChartLevel = 0;
             ChartOffset = 0;
+            EdittingID = -1;
+            SelectedMeasureIndex = -1;
+            PenMode = -1;
+            SongNameTBox.Text = "";
+            ArtistNameTBox.Text = "";
+            AudioFilePathTBox.Text = "";
+            ThumbFilePathTBox.Text = "";
+            ChartNameTBox.Text = "";
+            ChartJudgeTBox.Text = "";
+            ChartDesignerNameTBox.Text = "";
+            ChartStandardBPMTBox.Text = "";
+            ChartLevelTBox.Text = "";
+            ChartOffsetTBox.Text = "";
+            SelectedMeasureIndexTBox.Text = "";
+            denom.Text = "";
+            denom_R.Text = "";
+            mole.Text = "";
+            mole_R.Text = "";
+            sep.Text = "";
+            sep_R.Text = "";
             ChartPaths = new List<String>();
             ChartNames = new List<String>();
             ChartJudges = new List<String>();
@@ -444,6 +571,7 @@ namespace BeatapChartMaker
             ChartLevels = new List<int>();
             ChartOffsets = new List<int>();
             ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
+            cdlist.Clear();
             _SelectedChart = null;
             SelectedChart = null;
         }
@@ -455,7 +583,6 @@ namespace BeatapChartMaker
             Boolean isThumbFileRead = false;
             int chartCount = 0;
             DirectoryInfo directory = new DirectoryInfo(ProjectPath);
-            cdlist.Clear();
             ClearAllVariable();
             foreach (FileInfo inf in directory.GetFiles())
             {
@@ -494,7 +621,6 @@ namespace BeatapChartMaker
                 }
                 else if (CheckExt(infstr) == ".csv")
                 {
-                    ChartPaths.Add(infstr);
                     StreamReader sr = new StreamReader(@ProjectPath + "\\" + infstr, System.Text.Encoding.Default);
                     string value = sr.ReadToEnd();
                     sr.Close();
@@ -504,7 +630,7 @@ namespace BeatapChartMaker
                         Forms.MessageBox.Show("譜面ファイルに不正なフォーマットが使われています!\n修正または削除してください!\nError occurred in " + infstr + " file.", "プロジェクト読み込みエラー", Forms.MessageBoxButtons.OK, Forms.MessageBoxIcon.Error);
                         return;
                     }
-                    ChartPaths.Add(infstr);
+                    ChartPaths.Add(ProjectPath+"\\"+infstr);
                     ChartNames.Add(values[0]);
                     ChartLevels.Add(int.Parse(values[1]));
                     ChartDesigners.Add(values[2]);
@@ -658,17 +784,26 @@ namespace BeatapChartMaker
 
         private void ChartLevelTBox_Changed(object sender, TextChangedEventArgs e)
         {
-            ChartLevel = Convert.ToInt32(ChartLevelTBox.Text.ToString());
+            if (ChartLevelTBox.Text != "")
+            {
+                ChartLevel = Convert.ToInt32(ChartLevelTBox.Text.ToString());
+            }
         }
 
         private void ChartOffsetTBox_Changed(object sender, TextChangedEventArgs e)
         {
-            ChartOffset = Convert.ToInt32(ChartOffsetTBox.Text.ToString());
+            if (ChartOffsetTBox.Text != "")
+            {
+                ChartOffset = Convert.ToInt32(ChartOffsetTBox.Text.ToString());
+            }
         }
 
         private void ChartStandardBPMTBox_Changed(object sender, TextChangedEventArgs e)
         {
-            ChartStandardBPM = Convert.ToInt32(ChartStandardBPMTBox.Text.ToString());
+            if (ChartStandardBPMTBox.Text != "")
+            {
+                ChartStandardBPM = Convert.ToInt32(ChartStandardBPMTBox.Text.ToString());
+            }
         }
 
         private void ChartListGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
