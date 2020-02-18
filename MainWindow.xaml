@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="Beatap譜面エディタ" Height="720" Width="810.5">
+        Title="Beatap譜面エディタ" Height="720" Width="821.525">
 
     <Grid Margin="0,0,8,0">
         <Grid.RowDefinitions>
@@ -168,6 +168,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>

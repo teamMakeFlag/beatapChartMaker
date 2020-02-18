@@ -53,8 +53,10 @@ namespace BeatapChartMaker
         private ChartsData SelectedChart;
         private int EdittingID = -1;
         public String DefaultWorkSpacePath = "";
+        public String FunctionMode = "";
+        public String FunctionValue = "";
         //      譜面       行数  小節       分子 分母 分割  拍 レーン ノーツ
-        private List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
+        private List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, string, string>>>>>>();
         readonly List<ChartsData> cdlist = new List<ChartsData>();
         private int SelectedMeasureIndex = -1;
         private int PenMode = -1;
@@ -190,7 +192,7 @@ namespace BeatapChartMaker
         {
             if (_SelectedChart != null)
             {
-                List<List<int>> measure = new List<List<int>>();
+                List<Tuple<List<int>,string,String>> measure = new List<Tuple<List<int>, string, string>>();
                 for (int i = 0; i < int.Parse(sep.Text); i++)
                 {
                     List<int>row = new List<int>();
@@ -232,10 +234,10 @@ namespace BeatapChartMaker
                         ChartDataGrid.Children.Add(note);
                         row.Add(0);
                     }
-                    measure.Add(row);
+                    measure.Add(Tuple.Create<List<int>,String,String>(row,"",""));
                 }
-                ChartData[_SelectedChart.ID].Item2.Add(Tuple.Create<int, int, int, List<List<int>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text),measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                ChartData[_SelectedChart.ID].Item2.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, String, String>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text),measure));
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
             }
         }
 
@@ -269,7 +271,7 @@ namespace BeatapChartMaker
                     default:
                         break;
                 }
-                ChartData[_SelectedChart.ID].Item2[measure].Item4[time][lane] = PenMode;
+                ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = PenMode;
             }
         }
 
@@ -297,15 +299,15 @@ namespace BeatapChartMaker
         {
             if (_SelectedChart != null && SelectedMeasureIndex != -1)
             {
-                List<List<int>> measure = new List<List<int>>();
+                List<Tuple<List<int>, String, String>> measure = new List<Tuple<List<int>, String, String>>();
                 for(int i = 0; i < int.Parse(sep.Text); i++)
                 {
                     List<int> time = new List<int>();
                     for (int j = 0; j < 5; j++) time.Add(0);
-                    measure.Add(time);
+                    measure.Add(Tuple.Create<List<int>, String, String>(time,"",""));
                 }
-                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, Tuple.Create<int, int, int, List<List<int>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, Tuple.Create<int, int, int, List<Tuple<List<int>,String,String>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
                 DrawChartData();
             }
         }
@@ -314,15 +316,15 @@ namespace BeatapChartMaker
         {
             if (_SelectedChart != null && SelectedMeasureIndex != -1)
             {
-                List<List<int>> measure = new List<List<int>>();
+                List<Tuple<List<int>, String, String>> measure = new List<Tuple<List<int>, String, String>>();
                 for (int i = 0; i < int.Parse(sep.Text); i++)
                 {
                     List<int> time = new List<int>();
                     for (int j = 0; j < 5; j++) time.Add(0);
-                    measure.Add(time);
+                    measure.Add(Tuple.Create<List<int>, String, String>(time,"",""));
                 }
-                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex+1, Tuple.Create<int, int, int, List<List<int>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex+1, Tuple.Create<int, int, int, List<Tuple<List<int>, String, String>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
                 DrawChartData();
             }
         }
@@ -335,7 +337,7 @@ namespace BeatapChartMaker
                 {
                     for (int j = 0; j < 5; j++)
                     {
-                        ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[i][j] = 0;
+                        ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[i].Item1[j] = 0;
                     }
                 }
                 DrawChartData();
@@ -348,9 +350,19 @@ namespace BeatapChartMaker
             {
                 int ds = ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item3;
                 ChartData[_SelectedChart.ID].Item2.RemoveAt(SelectedMeasureIndex);
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(ChartData[_SelectedChart.ID].Item1 - ds, ChartData[_SelectedChart.ID].Item2);
+                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(ChartData[_SelectedChart.ID].Item1 - ds, ChartData[_SelectedChart.ID].Item2);
                 DrawChartData();
             }
+        }
+
+        private void FunctionButton_Click(object sender, int measure, int time)
+        {
+            FunctionMode = ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item2;
+            FunctionValue = ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item3;
+            EditFunctionWindow efw = new EditFunctionWindow();
+            efw.Owner = this;
+            efw.Show();
+            efw.Load(measure, time);
         }
 
         private void SetPenModeSingleNote_Click(object sender, RoutedEventArgs e)
@@ -378,24 +390,51 @@ namespace BeatapChartMaker
             if (_SelectedChart != null)
             {
                 StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
-                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",\n");
-                cfs.Write("START,,,,,,\n");
+                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + ",,\n");
+                cfs.Write("START,,,,,,,\n");
                 for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count; i++)
                 {
-                    cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + ",,,,\n");
+                    cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + ",,,,,\n");
                     for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
                     {
                         for (int k = 0; k < 5; k++)
                         {
-                            cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j][k]);
+                            cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item1[k]);
                             cfs.Write(",");
                         }
-                        cfs.Write(",\n");
+                        cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2+","+ ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item3+ ",\n");
                     }
                 }
-                cfs.Write("END,,,,,,\n");
+                cfs.Write("END,,,,,,,\n");
                 cfs.Close();
             }
+        }
+
+        public void SaveFunction(int measure, int time)
+        {
+            Tuple<List<int>, String, String> tm = Tuple.Create<List<int>, String, String>(ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1, FunctionMode, FunctionValue);
+            ChartData[_SelectedChart.ID].Item2[measure].Item4[time] = tm;
+            /*if (FunctionMode != "" && FunctionValue != "")
+            {
+                object nb = ChartDataGrid.FindName("M" + measure.ToString() + "T" + time.ToString() + "Button");
+                if(nb is Button)
+                {
+                    Button wb = nb as Button;
+                    wb.Content = "●";
+                }
+            }
+            else
+            {
+                object nb = ChartDataGrid.FindName("M" + measure.ToString() + "T" + time.ToString() + "Button");
+                if (nb is Button)
+                {
+                    Button wb = nb as Button;
+                    wb.Content = "○";
+                }
+            }*/
+            FunctionMode = "";
+            FunctionValue = "";
+            DrawChartData();
         }
 
         public void LoadChart(String path)
@@ -416,15 +455,15 @@ namespace BeatapChartMaker
             ChartStandardBPMs.Add(int.Parse(values[3]));
             ChartOffsets.Add(int.Parse(values[4]));
             ChartJudges.Add(values[5]);
-            int i = 12;
+            int i = 14;
             int measure_d = 0;
             int measure_m = 0;
             int separate = 0;
             int timeIndex = 1;
             int max_timeIndex = 0;
             int rcount = 0;
-            List<Tuple<int, int, int, List<List<int>>>> chartData = new List<Tuple<int, int, int, List<List<int>>>>();
-            List<List<int>> measureData = new List<List<int>>();
+            List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>> chartData = new List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>();
+            List<Tuple<List<int>, String, String>> measureData = new List<Tuple<List<int>, String, String>>();
             while (!values[i].Contains("END"))
             {
                 if (measure_d == 0)
@@ -434,22 +473,22 @@ namespace BeatapChartMaker
                     separate = int.Parse(values[i + 2]);
                     rcount += separate;
                     max_timeIndex = separate;
-                    i += 5;
+                    i += 6;
                 }
                 else
                 {
                     List<int> timeData = new List<int>();
                     timeData.Add(int.Parse(values[i]));
-                    timeData.Add(int.Parse(values[i + 1]));
-                    timeData.Add(int.Parse(values[i + 2]));
-                    timeData.Add(int.Parse(values[i + 3]));
-                    timeData.Add(int.Parse(values[i + 4]));
-                    measureData.Add(timeData);
-                    i += 5;
+                    timeData.Add(int.Parse(values[i + 1].Replace(Environment.NewLine, "")));
+                    timeData.Add(int.Parse(values[i + 2].Replace(Environment.NewLine, "")));
+                    timeData.Add(int.Parse(values[i + 3].Replace(Environment.NewLine, "")));
+                    timeData.Add(int.Parse(values[i + 4].Replace(Environment.NewLine, "")));
+                    measureData.Add(Tuple.Create<List<int>, String, String>(timeData, values[i+5].Replace(Environment.NewLine, ""), values[i+6].Replace(Environment.NewLine, "")));
+                    i += 6;
                     if (timeIndex == max_timeIndex)
                     {
-                        chartData.Add(Tuple.Create<int, int, int, List<List<int>>>(measure_m, measure_d, separate, measureData));
-                        measureData = new List<List<int>>();
+                        chartData.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, String, String>>>(measure_m, measure_d, separate, measureData));
+                        measureData = new List<Tuple<List<int>, String, String>>();
                         measure_d = 0;
                         measure_m = 0;
                         separate = 0;
@@ -460,7 +499,7 @@ namespace BeatapChartMaker
                 }
                 i++;
             }
-            ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(rcount, chartData));
+            ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(rcount, chartData));
             cdlist.Add(new ChartsData(ChartData.Count - 1, ChartNames[ChartData.Count - 1], ChartDesigners[ChartData.Count - 1], ChartLevels[ChartData.Count - 1]));
             UpdateDataList();
         }
@@ -489,17 +528,19 @@ namespace BeatapChartMaker
                 for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
                 {
                     ChartDataGrid.RowDefinitions.Add(new RowDefinition());
+                    int m = i;
+                    int t = j;
                     if (j == 0)
                     {
                         Button label = new Button();
                         label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
                         label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
-                        String d = ChartData[_SelectedChart.ID].Item2[i].Item2.ToString();
-                        String m = ChartData[_SelectedChart.ID].Item2[i].Item1.ToString();
-                        String s = ChartData[_SelectedChart.ID].Item2[i].Item3.ToString();
+                        String ds = ChartData[_SelectedChart.ID].Item2[i].Item2.ToString();
+                        String ms = ChartData[_SelectedChart.ID].Item2[i].Item1.ToString();
+                        String ss = ChartData[_SelectedChart.ID].Item2[i].Item3.ToString();
                         int index = i+1;
                         label.Content = index;
-                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s, index);
+                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, ds, ms, ss, index);
                         Grid.SetColumn(label, 0);
                         Grid.SetRow(label, count);
                         ChartDataGrid.Children.Add(label);
@@ -517,7 +558,7 @@ namespace BeatapChartMaker
                     for (int k = 1; k < 6; k++)
                     {
                         Button note = new Button();
-                        switch(ChartData[_SelectedChart.ID].Item2[i].Item4[j][k - 1])
+                        switch(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item1[k - 1])
                         {
                             case 0:
                                 note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
@@ -534,14 +575,26 @@ namespace BeatapChartMaker
                             default:
                                 break;
                         }
-                        int m = i;
-                        int t = j;
                         int l = k - 1;
                         note.Click += (lsender, le) => NoteButton_Clicked(lsender, m, t, l);
                         Grid.SetColumn(note, k);
                         Grid.SetRow(note, count);
                         ChartDataGrid.Children.Add(note);
                     }
+                    Button func = new Button();
+                    //func.Name = "M"+m.ToString()+"T"+t.ToString()+"Button";
+                    if ((ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2 == "BPMCHANGE" || ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2 == "SCROLL") && ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item3 != "")
+                    {
+                        func.Content = "●";
+                    }
+                    else
+                    {
+                        func.Content = "〇";
+                    }
+                    func.Click += (lsender, le) => FunctionButton_Click(lsender, m,t);
+                    Grid.SetColumn(func, 6);
+                    Grid.SetRow(func, count);
+                    ChartDataGrid.Children.Add(func);
                     count++;
                 }
             }
@@ -585,7 +638,7 @@ namespace BeatapChartMaker
             ChartStandardBPMs = new List<int>();
             ChartLevels = new List<int>();
             ChartOffsets = new List<int>();
-            ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<List<int>>>>>>();
+            ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>>();
             cdlist.Clear();
             _SelectedChart = null;
             SelectedChart = null;
@@ -652,39 +705,39 @@ namespace BeatapChartMaker
                     ChartStandardBPMs.Add(int.Parse(values[3]));
                     ChartOffsets.Add(int.Parse(values[4]));
                     ChartJudges.Add(values[5]);
-                    int i = 12;
+                    int i = 14;
                     int measure_d = 0;
                     int measure_m = 0;
                     int separate = 0;
                     int timeIndex = 1;
                     int max_timeIndex = 0;
                     int rcount = 0;
-                    List<Tuple<int, int, int, List<List<int>>>> chartData = new List<Tuple<int, int, int, List<List<int>>>>();
-                    List<List<int>> measureData = new List<List<int>>();
+                    List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>> chartData = new List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>();
+                    List<Tuple<List<int>, String, String>> measureData = new List<Tuple<List<int>, String, String>>();
                     while (!values[i].Contains("END"))
                     {
                         if(measure_d == 0)
                         {
-                            measure_m = int.Parse(values[i]);
-                            measure_d = int.Parse(values[i + 1]);
-                            separate = int.Parse(values[i + 2]);
+                            measure_m = int.Parse(values[i].Replace(Environment.NewLine, ""));
+                            measure_d = int.Parse(values[i + 1].Replace(Environment.NewLine, ""));
+                            separate = int.Parse(values[i + 2].Replace(Environment.NewLine, ""));
                             rcount += separate;
                             max_timeIndex = separate;
-                            i += 5;
+                            i += 6;
                         }
                         else
                         {
                             List<int> timeData = new List<int>();
-                            timeData.Add(int.Parse(values[i]));
-                            timeData.Add(int.Parse(values[i+1]));
-                            timeData.Add(int.Parse(values[i+2]));
-                            timeData.Add(int.Parse(values[i+3]));
-                            timeData.Add(int.Parse(values[i+4]));
-                            measureData.Add(timeData);
-                            i += 5;
+                            timeData.Add(int.Parse(values[i].Replace(Environment.NewLine, "")));
+                            timeData.Add(int.Parse(values[i+1].Replace(Environment.NewLine, "")));
+                            timeData.Add(int.Parse(values[i+2].Replace(Environment.NewLine, "")));
+                            timeData.Add(int.Parse(values[i+3].Replace(Environment.NewLine, "")));
+                            timeData.Add(int.Parse(values[i+4].Replace(Environment.NewLine, "")));
+                            measureData.Add(Tuple.Create<List<int>, String, String>(timeData,values[i+5].Replace(Environment.NewLine, ""), values[i+6].Replace(Environment.NewLine, "")));
+                            i += 6;
                             if(timeIndex == max_timeIndex) {
-                                chartData.Add(Tuple.Create<int, int, int, List<List<int>>>(measure_m, measure_d, separate, measureData));
-                                measureData = new List<List<int>>();
+                                chartData.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, String, String>>>(measure_m, measure_d, separate, measureData));
+                                measureData = new List<Tuple<List<int>, String, String>>();
                                 measure_d = 0;
                                 measure_m = 0;
                                 separate = 0;
@@ -695,7 +748,7 @@ namespace BeatapChartMaker
                         }
                         i++;
                     }
-                    ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<List<int>>>>>(rcount, chartData));
+                    ChartData.Add(Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, String, String>>>>>(rcount, chartData));
                     cdlist.Add(new ChartsData(chartCount, ChartNames[(int)chartCount], ChartDesigners[(int)chartCount], ChartLevels[(int)chartCount]));
                     chartCount++;
                 }
