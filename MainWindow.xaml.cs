@@ -326,6 +326,21 @@ namespace BeatapChartMaker
                 DrawChartData();
             }
         }
+        
+        private void ClearSelectedMeasureButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_SelectedChart != null && SelectedMeasureIndex != -1)
+            {
+                for(int i=0; i < ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4.Count; i++)
+                {
+                    for (int j = 0; j < 5; j++)
+                    {
+                        ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[i][j] = 0;
+                    }
+                }
+                DrawChartData();
+            }
+        }
 
         private void DeleteSelectedMeasureButton_Click(object sender, RoutedEventArgs e)
         {

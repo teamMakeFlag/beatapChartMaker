@@ -142,7 +142,7 @@
                         <Button Content="末尾に小節作成" Click="CreateMeasureButton_Clicked" HorizontalAlignment="Left" Margin="174,52,0,0" VerticalAlignment="Top" Width="93"/>
                         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="4,36,0,0" Stroke="Black" VerticalAlignment="Top" Width="261"/>
                         <Button Name="DeleteSelectedMeasureButton" Click="DeleteSelectedMeasureButton_Click" Content="選択中の小節を削除" HorizontalAlignment="Left" Margin="6,106,0,0" VerticalAlignment="Top" Width="124"/>
-                        <Button Content="選択中の小節をクリア" HorizontalAlignment="Left" Margin="135,106,0,0" VerticalAlignment="Top" Width="132"/>
+                        <Button Name="ClearSelectedMeasureButton" Click="ClearSelectedMeasureButton_Click" Content="選択中の小節をクリア" HorizontalAlignment="Left" Margin="135,106,0,0" VerticalAlignment="Top" Width="132"/>
                         <TextBox x:Name="denom_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="122,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
                         <Label Content="分の" HorizontalAlignment="Left" Margin="132,7,0,0" VerticalAlignment="Top" Height="24" Width="31"/>
                         <TextBox x:Name="mole_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="164,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
