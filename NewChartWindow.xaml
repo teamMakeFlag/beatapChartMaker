@@ -5,21 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="新規譜面作成" Height="256" Width="231.833" ResizeMode="NoResize">
+        Title="新規譜面作成" Height="240" Width="280" ResizeMode="NoResize">
     <Grid>
-        <TextBox Name="ChartNameTBox" HorizontalAlignment="Left" Height="23" Margin="96,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="DesignerNameTBox" HorizontalAlignment="Left" Height="23" Margin="96,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="ChartLevelTBox" PreviewTextInput="ChartLevelTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="96,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="ChartStandardBPMTBox" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" Height="24" Margin="96,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="ChartOffsetTBox" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" Height="24" Margin="96,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Name="CreateChartButton" Click="CreateChartButton_Click" Content="作成" HorizontalAlignment="Left" Margin="142,196,0,0" VerticalAlignment="Top" Width="74"/>
-        <Label Content="譜面名" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="制作者名" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="判定" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top"/>
-        <Label Content="レベル" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top"/>
-        <Label Content="基本BPM" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
-        <Label Content="オフセット値" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="judgecombo" HorizontalAlignment="Left" Margin="96,72,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Name="ErrorLabel" Foreground="#ff0000" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="127"/>
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Grid.Column" Value="0"/>
+                <Setter Property="Padding" Value="4,0,0,0"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Width" Value="160"/>
+                <Setter Property="Height" Value="24"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="AllowDrop" Value="True"/>
+                <Setter Property="TextWrapping" Value="NoWrap"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left">譜面名</TextBlock>
+        <TextBox Name="ChartNameTBox" Grid.Row="0"/>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Left">譜面製作者名</TextBlock>
+        <TextBox Name="DesignerNameTBox" Grid.Row="1"/>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left">判定</TextBlock>
+        <ComboBox Name="judgecombo" Grid.Row="2" Grid.Column="1" Width="160" Height="24"/>
+        <TextBlock Grid.Row="3" HorizontalAlignment="Left">レベル</TextBlock>
+        <TextBox Name="ChartLevelTBox" Grid.Row="3" PreviewTextInput="ChartLevelTBox_PreviewTextInput"/>
+        <TextBlock Grid.Row="4" HorizontalAlignment="Left">基本BPM</TextBlock>
+        <TextBox Name="ChartStandardBPMTBox" Grid.Row="4" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput"/>
+        <TextBlock Grid.Row="5" HorizontalAlignment="Left">オフセット値</TextBlock>
+        <TextBox Name="ChartOffsetTBox" Grid.Row="5" PreviewTextInput="ChartOffsetTBox_PreviewTextInput"/>
+        <Label Name="ErrorLabel" Grid.Row="6" Grid.ColumnSpan="2" Foreground="#ff0000" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Button Name="CreateChartButton" Grid.Row="6" Grid.Column="1" Width="80" Margin="8,0" Click="CreateChartButton_Click" Content="作成" HorizontalAlignment="Right" VerticalAlignment="Center"/>
     </Grid>
 </Window>
