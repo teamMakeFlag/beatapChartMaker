@@ -73,6 +73,17 @@
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="IsReadOnly" Value="True"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Height" Value="24"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+
             </TabControl.Resources>
             <TabItem Header="楽曲データ">
                 <ScrollViewer Margin="0,0,0,-1">
@@ -140,8 +151,8 @@
                         <TextBox Name="ChartStandardBPMTBox" Grid.Row="4" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" TextChanged="ChartStandardBPMTBox_Changed"/>
                         <TextBlock Grid.Row="5">オフセット値</TextBlock>
                         <TextBox Name="ChartOffsetTBox" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" TextChanged="ChartOffsetTBox_Changed"/>
-                        <DataGrid Name="ChartOptionsGrid" Grid.Row="6" Grid.ColumnSpan="3" Height="50" Width="290" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <ComboBox Name="ChartOptionsComboBox" Grid.Row="7" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <DataGrid Name="ChartOptionsGrid" Grid.Row="6" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged"/>
+                        <ComboBox Name="ChartOptionsComboBox" Grid.Row="7" Grid.ColumnSpan="2" Width="195"/>
                         <TextBox Name="ChartOptionsValueTBox" Grid.Row="7" Grid.Column="2" Width="95" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput"/>
                         <Button Name="AddChartOptionButton" Grid.Row="8" Grid.Column="0" Width="95" Click="AddChartOptionButton_Click">追加</Button>
                         <Button Name="DeleteChartOptionButton" Grid.Row="8" Grid.Column="1" Width="95" Click="DeleteChartOptionButton_Click">削除</Button>
@@ -184,17 +195,17 @@
                         <TextBox Name="mole" Grid.Row="4" Grid.Column="2" Width="95" PreviewTextInput="mole_PreviewTextInput"/>
                         <TextBlock Grid.Row="5">分割数</TextBlock>
                         <TextBox Name="sep" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="sep_PreviewTextInput"/>
-                        <ComboBox Name="ActionSelectComboBox" Grid.Row="6" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ComboBox Name="ActionSelectComboBox" Grid.Row="6" Grid.ColumnSpan="2" Width="195"/>
                         <Button Name="DoActionButton" Grid.Row="6" Grid.Column="2" Width="95" Click="DoActionButton_Click">実行</Button>
                         <GridSplitter Grid.Row="7" Grid.ColumnSpan="3" Width="295" Height="auto" Background="Black" IsEnabled="False"/>
                         <TextBlock Grid.Row="8">拍</TextBlock>
                         <TextBox Name="SelectedTimeTBox" Grid.Row="8" Grid.ColumnSpan="2" Width="195" IsReadOnly="True" IsEnabled="False"/>
-                        <DataGrid Name="TimeOptionsGrid" Grid.Row="9" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <Button Name="AddOptionButton" Grid.Row="8" Click="AddOptionButton_Click" Content="追加" HorizontalAlignment="Left" Margin="201,253,0,0" VerticalAlignment="Top" Width="34"/>
-                        <ComboBox Name="TimeOptionsComboBox" Grid.Row="10" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <DataGrid Name="TimeOptionsGrid" Grid.Row="9" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged"/>
+                        <ComboBox Name="TimeOptionsComboBox" Grid.Row="10" Grid.ColumnSpan="2" Width="195"/>
                         <TextBox Name="TimeOptionsValueTBox" Grid.Row="10" Grid.Column="2" Width="95" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput"/>
-                        <Button Name="DeleteOptionButton" Grid.Row="11" Grid.ColumnSpan="2" Width="95" Click="DeleteOptionButton_Click">削除</Button>
-                        <Button Name="SaveTimeOptions" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Width="95" Click="SaveTimeOptions_Click">保存</Button>
+                        <Button Name="AddOptionButton" Grid.Row="11" Width="95" Click="AddOptionButton_Click">追加</Button>
+                        <Button Name="DeleteOptionButton" Grid.Row="11" Grid.Column="1" Width="95" Click="DeleteOptionButton_Click">削除</Button>
+                        <Button Name="SaveTimeOptions" Grid.Row="11" Grid.Column="2" Width="95" Click="SaveTimeOptions_Click">保存</Button>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
