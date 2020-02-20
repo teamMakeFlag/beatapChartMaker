@@ -462,7 +462,7 @@ namespace BeatapChartMaker
                                 if (l < ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count() - 1) cfs.Write("+");
                             }
                         }
-                        else cfs.Write("\n");
+                        cfs.Write("\n");
                     }
                 }
                 cfs.Write("END\n");
@@ -934,10 +934,10 @@ namespace BeatapChartMaker
         {
             if (SelectedTimeTBox.Text != "")
             {
-                ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)].Item2.Clear();
+                ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)-1].Item2.Clear();
                 for (int i = 0; i < tolist.Count(); i++)
                 {
-                    ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)].Item2.Add(tolist[i]);
+                    ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)-1].Item2.Add(tolist[i]);
                 }
             }
         }
