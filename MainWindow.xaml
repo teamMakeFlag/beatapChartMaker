@@ -140,6 +140,7 @@
             <TabItem Header="エディタ">
                 <ScrollViewer>
                     <Grid Width="auto" Background="#FFFaFaFF">
+                        <TextBox Name="SelectedMeasureIndexTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="32"/>
                         <TextBox Name="denom" PreviewTextInput="denom_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="102,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
                         <Label Content="分の" HorizontalAlignment="Left" Margin="114,45,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
                         <TextBox x:Name="mole" PreviewTextInput="mole_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="150,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
