@@ -96,7 +96,12 @@
                         <Button Name="ThumbRefButton" Click="ThumbRefButton_Clicked" Content="参照" HorizontalAlignment="Left" Height="19" Margin="32,119,0,-109" VerticalAlignment="Top" Width="153" Grid.Row="1" Grid.Column="1"/>
                         <Button Name="AudioRefResetButton" Click="AudioRefResetButton_Click" Content="リセット" HorizontalAlignment="Left" Height="19" Margin="0,63,0,-53" Grid.Row="1" VerticalAlignment="Top" Width="119" Grid.ColumnSpan="2"/>
                         <Button x:Name="ThumbRefResetButton" Click="ThumbRefResetButton_Click" Content="リセット" HorizontalAlignment="Left" Height="19" Margin="0,119,0,-109" Grid.Row="1" VerticalAlignment="Top" Width="119" Grid.ColumnSpan="2"/>
-                        <Button Name="SaveMusicDataButton" Click="SaveMusicDataButton_Click" Content="曲情報を保存する" HorizontalAlignment="Left" Height="93" Margin="2,153,0,-217" Grid.Row="1" VerticalAlignment="Top" Width="275" Grid.ColumnSpan="2"/>
+                        <Button Name="SaveMusicDataButton" Click="SaveMusicDataButton_Click" Content="保存" HorizontalAlignment="Left" Height="23" Margin="145,230,0,-224" Grid.Row="1" VerticalAlignment="Top" Width="40" Grid.Column="1"/>
+                        <DataGrid Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="87" Margin="0,143,0,-201" Grid.Row="1" VerticalAlignment="Top" Width="277"/>
+                        <ComboBox Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,230,0,-225" Grid.Row="1" VerticalAlignment="Top" Width="133"/>
+                        <TextBox HorizontalAlignment="Left" Height="23" Margin="46,230,0,-224" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="30"/>
+                        <Button Content="追加" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="81,230,0,-224" Grid.Row="1" VerticalAlignment="Top" Width="32"/>
+                        <Button Content="削除" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="113,230,0,-224" Grid.Row="1" VerticalAlignment="Top" Width="32"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

@@ -274,6 +274,10 @@ namespace BeatapChartMaker
             mole_R.Text = m;
             sep_R.Text = s;
             SelectedMeasureIndex = index-1;
+            SelectedTimeTBox.Text = "";
+            SelectedOption = null;
+            tolist.Clear();
+            UpdateTODataList();
             SelectedMeasureIndexTBox.Text = (SelectedMeasureIndex+1).ToString();
         }
 
@@ -448,7 +452,14 @@ namespace BeatapChartMaker
                         {
                             for(int l = 0;l< ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count(); l++)
                             {
-                                cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2[l].Item1 + "," + ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2[l].Item1);
+                                cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2[l].Item1);
+                                if (l < ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count() - 1) cfs.Write("+");
+                                else cfs.Write(",");
+                            }
+                            for (int l = 0; l < ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count(); l++)
+                            {
+                                cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2[l].Item2);
+                                if (l < ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count() - 1) cfs.Write("+");
                             }
                         }
                         else cfs.Write("\n");
@@ -893,10 +904,14 @@ namespace BeatapChartMaker
 
         private void AddOptionButton_Click(object sender, RoutedEventArgs e)
         {
-            int idummy;
-            if(TimeOptionsValueTBox.Text != "" && TimeOptionsComboBox.SelectedValue.ToString()!="" && int.TryParse(TimeOptionsValueTBox.Text,out idummy)) {
-                tolist.Add(Tuple.Create<String, String>(TimeOptionsComboBox.SelectedValue.ToString(),TimeOptionsValueTBox.Text.ToString()));
-                UpdateTODataList();
+            if (SelectedTimeTBox.Text != "")
+            {
+                int idummy;
+                if (TimeOptionsValueTBox.Text != "" && TimeOptionsComboBox.SelectedValue.ToString() != "" && int.TryParse(TimeOptionsValueTBox.Text, out idummy))
+                {
+                    tolist.Add(Tuple.Create<String, String>(TimeOptionsComboBox.SelectedValue.ToString(), TimeOptionsValueTBox.Text.ToString()));
+                    UpdateTODataList();
+                }
             }
         }
 
@@ -917,7 +932,14 @@ namespace BeatapChartMaker
 
         private void SaveTimeOptions_Click(object sender, RoutedEventArgs e)
         {
-            //
+            if (SelectedTimeTBox.Text != "")
+            {
+                ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)].Item2.Clear();
+                for (int i = 0; i < tolist.Count(); i++)
+                {
+                    ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)].Item2.Add(tolist[i]);
+                }
+            }
         }
     }
 }
