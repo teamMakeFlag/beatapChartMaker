@@ -66,6 +66,8 @@ namespace BeatapChartMaker
         readonly List<Tuple<String, String>> colist = new List<Tuple<string, string>>();
         private int SelectedMeasureIndex = -1;
         private int PenMode = -1;
+        private bool IsLongNoteMode = false;
+        private Tuple<int, int, int> FirstLongModeSelected = null;
 
         public MainWindow()
         {
@@ -387,7 +389,24 @@ namespace BeatapChartMaker
 
         private void NoteButton_Clicked(object sender, int measure, int time, int lane)
         {
-            if (PenMode != -1)
+            if (IsLongNoteMode)
+            {
+                if(!(FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 == time ) && FirstLongModeSelected.Item3 == lane)
+                {
+                    if(FirstLongModeSelected.Item1>measure || (FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 > time))
+                    {
+                        //
+                    }
+                    else
+                    {
+                        //
+                    }
+                    DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                    IsLongNoteMode = false;
+                    FirstLongModeSelected = null;
+                }
+            }
+            else if (PenMode != -1)
             {
                 switch (PenMode)
                 {
@@ -399,6 +418,8 @@ namespace BeatapChartMaker
                         break;
                     case 2:
                         ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                        IsLongNoteMode = true;
+                        FirstLongModeSelected = Tuple.Create<int, int, int>(measure, time,lane);
                         break;
                     case 3:
                         ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 13, 13));
@@ -449,6 +470,12 @@ namespace BeatapChartMaker
 
         private void SetPenModeSingleNote_Click(object sender, RoutedEventArgs e)
         {
+            if (IsLongNoteMode)
+            {
+                DButtons[FirstLongModeSelected.Item1][FirstLongModeSelected.Item2][FirstLongModeSelected.Item3].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                IsLongNoteMode = false;
+                FirstLongModeSelected = null;
+            }
             PenMode = 1;
         }
 
@@ -459,11 +486,23 @@ namespace BeatapChartMaker
 
         private void SetPenModeDoubleNote_Click(object sender, RoutedEventArgs e)
         {
+            if (IsLongNoteMode)
+            {
+                DButtons[FirstLongModeSelected.Item1][FirstLongModeSelected.Item2][FirstLongModeSelected.Item3].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                IsLongNoteMode = false;
+                FirstLongModeSelected = null;
+            }
             PenMode = 3;
         }
 
         private void SetPenModeEraseNote_Click(object sender, RoutedEventArgs e)
         {
+            if (IsLongNoteMode)
+            {
+                DButtons[FirstLongModeSelected.Item1][FirstLongModeSelected.Item2][FirstLongModeSelected.Item3].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                IsLongNoteMode = false;
+                FirstLongModeSelected = null;
+            }
             PenMode = 0;
         }
         
