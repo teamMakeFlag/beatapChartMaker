@@ -5,90 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="新しいプロジェクトを作成する" Height="480" Width="560" ResizeMode="NoResize">
-    <Grid>
-        <Grid.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Grid.Column" Value="0"/>
-                <Setter Property="Padding" Value="4,0,0,0"/>
-                <Setter Property="TextWrapping" Value="Wrap"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="TextBox">
-                <Setter Property="Grid.Column" Value="1"/>
-                <Setter Property="Grid.ColumnSpan" Value="3"/>
-                <Setter Property="Width" Value="395"/>
-                <Setter Property="Height" Value="24"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="AllowDrop" Value="True"/>
-                <Setter Property="TextWrapping" Value="NoWrap"/>
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="Grid.Column" Value="0"/>
-                <Setter Property="Grid.ColumnSpan" Value="4"/>
-                <Setter Property="Height" Value="24"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="#ff0000"/>
-            </Style>
-            <Style TargetType="Button">
-                <Setter Property="Height" Value="24"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2.5*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="0.5*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0">作業フォルダ</TextBlock>
-        <TextBox Name="WorkSpaceDirectoryNameTBox" Grid.Row="0" PreviewTextInput="WorkSpaceDirectoryNameTBox_PreviewTextInput" TextChanged="WorkSpaceDirectoryNameTBox_Changed"/>
-        <Label Name="WSDNErrorLabel" Grid.Row="1"/>
-        <TextBlock Grid.Row="2">楽曲名</TextBlock>
-        <TextBox Name="SongNameTBox" Grid.Row="2" TextChanged="SongNameTBox_Changed"/>
-        <TextBlock Grid.Row="3">アーティスト名</TextBlock>
-        <TextBox Name="ArtistNameTBox" Grid.Row="3" TextChanged="ArtistNameTBox_Changed"/>
-        <TextBlock Grid.Row="4">画像ファイルパス</TextBlock>
-        <TextBox Name="ThumbFilePathTBox" Grid.Row="4" TextChanged="ThumbFilePathTBox_Changed"/>
-        <Button Name="ThumbRefButton" Grid.Row="4" Grid.Column="4" Width="42" Click="ThumbRefButton_Clicked">参照</Button>
-        <Label Name="TFPErrorLabel" Grid.Row="5"/>
-        <TextBlock Grid.Row="6">楽曲ファイルパス</TextBlock>
-        <TextBox Name="AudioFilePathTBox" Grid.Row="6" TextChanged="AudioFilePathTBox_Changed"/>
-        <Button Name="AudioRefButton" Grid.Row="6" Grid.Column="4" Width="42" Click="AudioRefButton_Clicked">参照</Button>
-        <Label Name="AFPErrorLabel" Grid.Row="7"/>
-        <TextBlock Grid.Row="8">譜面制作者名</TextBlock>
-        <TextBox Name="ChartDesignerNameTBox" Grid.Row="8" TextChanged="ChartDesignerNameTBox_Changed"/>
-        <TextBlock Grid.Row="9">譜面難易度</TextBlock>
-        <TextBox Name="ChartDifficulitiesTBox"  Grid.Row="9" TextChanged="ChartDifficulitiesTBox_Changed"/>
-        <TextBlock Grid.Row="10">譜面レベル</TextBlock>
-        <TextBox Name="ChartLevelsTBox"  Grid.Row="10" PreviewTextInput="ChartLevelsTBox_PreviewTextInput" TextChanged="ChartLevelsTBox_Changed"/>
-        <TextBlock Grid.Row="11">判定</TextBlock>
-        <TextBox Name="ChartJudgesTBox" Grid.Row="11" TextChanged="ChartJudgesTBox_Changed"/>
-        <TextBlock Grid.Row="12">基本BPM</TextBlock>
-        <TextBox Name="StandardBPMTBox" Grid.Row="12" PreviewTextInput="StandardBPMTBox_PreviewTextInput" TextChanged="StandardBPMTBox_Changed"/>
-        <Button Name="ClearButton" Grid.Row="13" Grid.Column="2" Width="92" Click="ClearButton_Clicked">クリア</Button>
-        <Button Name="CreateButton" Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2" Width="92" Click="CreateButton_Clicked">作成</Button>
+        Title="新しいプロジェクトを作成する" Height="513" Width="562.5" ResizeMode="NoResize">
+    <Grid Margin="0,0,2,-5">
+        <Label Content="作業フォルダ名" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="歌の名前" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
+        <Label Content="アーティスト名" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top"/>
+        <Label Content="サムネファイルパス" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Width="91"/>
+        <Label Content="楽曲ファイルパス" HorizontalAlignment="Left" Margin="10,192,0,0" VerticalAlignment="Top" Width="91"/>
+        <Label Content="譜面作成者名" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top"/>
+        <Label Content="作成難易度" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top"/>
+        <Label Content="譜面レヴェル" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/>
+        <Label Content="譜面判定" HorizontalAlignment="Left" Margin="10,353,0,0" VerticalAlignment="Top"/>
+        <Label Content="基本BPM" HorizontalAlignment="Left" Margin="10,384,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="WorkSpaceDirectoryNameTBox" PreviewTextInput="WorkSpaceDirectoryNameTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="97,13,0,0" TextChanged="WorkSpaceDirectoryNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="429"/>
+        <TextBox Name="SongNameTBox" HorizontalAlignment="Left" Height="23" Margin="71,70,0,0" TextChanged="SongNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="455"/>
+        <TextBox Name="ArtistNameTBox" HorizontalAlignment="Left" Height="23" Margin="88,100,0,0" TextChanged="ArtistNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="438"/>
+        <TextBox Name="ThumbFilePathTBox" HorizontalAlignment="Left" Height="23" Margin="101,134,0,0" TextChanged="ThumbFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="372"/>
+        <TextBox Name="AudioFilePathTBox" HorizontalAlignment="Left" Height="23" Margin="97,196,0,0" TextChanged="AudioFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="376"/>
+        <TextBox Name="ChartDesignerNameTBox" HorizontalAlignment="Left" Height="23" Margin="97,259,0,0" TextChanged="ChartDesignerNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="429"/>
+        <TextBox Name="ChartDifficulitiesTBox" HorizontalAlignment="Left" Height="23" Margin="85,289,0,0" TextChanged="ChartDifficulitiesTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="441"/>
+        <TextBox Name="ChartLevelsTBox" PreviewTextInput="ChartLevelsTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="84,323,0,0" TextChanged="ChartLevelsTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="441" RenderTransformOrigin="0.494,1.638"/>
+        <TextBox Name="ChartJudgesTBox" HorizontalAlignment="Left" Height="23" Margin="73,357,0,0" TextChanged="ChartJudgesTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="452" RenderTransformOrigin="0.494,1.638"/>
+        <TextBox Name="StandardBPMTBox" PreviewTextInput="StandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="73,387,0,0" TextChanged="StandardBPMTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="452" RenderTransformOrigin="0.494,1.638"/>
+        <Button Name="CreateButton" Content="作成" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="CreateButton_Clicked" RenderTransformOrigin="-1.04,-1"/>
+        <Button Name="ThumbRefButton" Content="参照" HorizontalAlignment="Left" Margin="478,136,0,0" VerticalAlignment="Top" Width="47" Click="ThumbRefButton_Clicked"/>
+        <Button Name="AudioRefButton" Content="参照" HorizontalAlignment="Left" Margin="478,198,0,0" VerticalAlignment="Top" Width="47" Click="AudioRefButton_Clicked"/>
+        <Button Name="ClearButton" Content="クリア" Margin="0,0,90,10" Click="ClearButton_Clicked" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom"/>
+        <Label Name="WSDNErrorLabel" Foreground="#ff0000" HorizontalAlignment="Left" Height="27" Margin="10,39,0,0" VerticalAlignment="Top" Width="515" RenderTransformOrigin="0.493,1.37"/>
+        <Label Name="TFPErrorLabel" Foreground="#ff0000" HorizontalAlignment="Left" Margin="11,162,0,0" VerticalAlignment="Top" Width="515" Height="26"/>
+        <Label Name="AFPErrorLabel" Foreground="#ff0000" HorizontalAlignment="Left" Margin="11,224,0,0" VerticalAlignment="Top" Width="515" Height="26"/>
     </Grid>
 </Window>
