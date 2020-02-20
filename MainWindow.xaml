@@ -112,11 +112,6 @@
                         <TextBox Name="ThumbFilePathTBox" Grid.Row="3" Width="145" TextChanged="ThumbFilePathTBox_Changed"/>
                         <Button Name="ThumbRefButton" Grid.Row="3" Grid.Column="2" Width="45" Click="ThumbRefButton_Clicked">参照</Button>
                         <Button Name="SaveMusicDataButton" Grid.Row="4"  Grid.ColumnSpan="3" Width="290" Click="SaveMusicDataButton_Click">曲情報を保存する</Button>
-
-                        <!-- 以下削除 -->
-                        <Button Name="AudioRefResetButton" Click="AudioRefResetButton_Click" Content="リセット" HorizontalAlignment="Left" Height="19" Margin="10,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="119" Grid.Column="1"/>
-                        <Button x:Name="ThumbRefResetButton" Click="ThumbRefResetButton_Click" Content="リセット" HorizontalAlignment="Left" Height="19" Margin="5,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="119" Grid.ColumnSpan="2"/>
-                        <!-- ここまで -->
                     </Grid>
                 </ScrollViewer>
             </TabItem>
