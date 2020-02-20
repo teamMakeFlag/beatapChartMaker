@@ -536,18 +536,6 @@ namespace BeatapChartMaker
             }
         }
 
-        private void AudioRefResetButton_Click(object sender, RoutedEventArgs e)
-        {
-            AudioFilePathTBox.Text = SavedAudioFilePath;
-            AudioFilePath = SavedAudioFilePath;
-        }
-
-        private void ThumbRefResetButton_Click(object sender, RoutedEventArgs e)
-        {
-            ThumbFilePathTBox.Text = SavedThumbFilePath;
-            ThumbFilePath = SavedThumbFilePath;
-        }
-
         private void SaveMusicDataButton_Click(object sender, RoutedEventArgs e)
         {
             StreamWriter fs = new StreamWriter(@DefaultWorkSpacePath + "\\music.txt", false, System.Text.Encoding.Default);
