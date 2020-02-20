@@ -87,9 +87,9 @@ namespace BeatapChartMaker
                 {
                     String path = WSP + WorkSpaceDirectoryName + "\\" + difs[j] + ".csv";
                     StreamWriter cfs = new StreamWriter(@path, false, System.Text.Encoding.Default);
-                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + "," + StandardBPM + ",0," + juds[j] + ",,\n");
-                    cfs.Write("START,,,,,,,\n");
-                    cfs.Write("END,,,,,,,\n");
+                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + "," + StandardBPM + ",0," + juds[j] + "\n");
+                    cfs.Write("START\n");
+                    cfs.Write("END\n");
                     cfs.Close();
                 }
                 if (File.Exists(System.IO.Path.GetFullPath("config.ini")))

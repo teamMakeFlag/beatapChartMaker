@@ -57,17 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EditFunctionWindow.xaml.cs">
-      <DependentUpon>EditFunctionWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="NewChartWindow.xaml.cs">
       <DependentUpon>NewChartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReadWriteIni.cs" />
-    <Page Include="EditFunctionWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

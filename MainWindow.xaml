@@ -154,13 +154,22 @@
                         <Button Name="CreateMeasureAfterSelectedButton" Click="CreateMeasureAfterSelectedButton_Click" Content="選択中の小節後に作成" HorizontalAlignment="Left" Margin="135,79,0,0" VerticalAlignment="Top" Width="132"/>
                         <Label Content="小節の情報" HorizontalAlignment="Left" Margin="53,8,0,0" VerticalAlignment="Top"/>
                         <TextBox Name="SelectedMeasureIndexTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="32"/>
+                        <DataGrid x:Name="TimeOptionsGrid" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Left" Height="90" Margin="6,155,0,0" VerticalAlignment="Top" Width="261"/>
+                        <Button x:Name="AddOptionButton" Click="AddOptionButton_Click" Content="追加" HorizontalAlignment="Left" Margin="201,253,0,0" VerticalAlignment="Top" Width="34"/>
+                        <ComboBox x:Name="TimeOptionsComboBox" Grid.Column="0" HorizontalAlignment="Left" Margin="4,250,0,0" VerticalAlignment="Top" Width="139"/>
+                        <TextBox x:Name="TimeOptionsValueTBox" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="148,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
+                        <Button x:Name="DeleteOptionButton" Click="DeleteOptionButton_Click" Content="削除" HorizontalAlignment="Left" Margin="239,253,0,0" VerticalAlignment="Top" Width="34"/>
+                        <Label Content="第" HorizontalAlignment="Left" Margin="7,129,0,0" VerticalAlignment="Top"/>
+                        <Label Content="拍のオプション" HorizontalAlignment="Left" Margin="63,129,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="SelectedTimeTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="29,132,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="34"/>
+                        <Button Name="SaveTimeOptions" Click="SaveTimeOptions_Click" Content="を保存する" HorizontalAlignment="Left" Margin="139,132,0,0" VerticalAlignment="Top" Width="59"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
         </TabControl>
         <!-- (1-2,1) エディタ ChartEditor ScrollViewer(Grid) -->
         <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="0,23,0,0">
-            <Grid x:Name="ChartDataGrid" ShowGridLines="False" Background="#DDDDDD" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Grid Name="ChartDataGrid" ShowGridLines="False" Background="#DDDDDD" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
