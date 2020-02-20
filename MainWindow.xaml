@@ -153,9 +153,9 @@
                 <ScrollViewer>
                     <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -165,36 +165,36 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="56"/>
+                            <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0">小節</TextBlock>
-                        <TextBox Name="SelectedMeasureIndexTBox" Grid.Row="0" Grid.ColumnSpan="2" Width="195" IsEnabled="False" IsReadOnly="True"/>
+                        <TextBlock>小節</TextBlock>
+                        <TextBox Name="SelectedMeasureIndexTBox" Grid.ColumnSpan="3" Width="195" IsEnabled="False" IsReadOnly="True"/>
                         <TextBlock Grid.Row="1">拍子 (左/右)</TextBlock>
                         <TextBox Name="mole_R" Grid.Row="1" Width="95" IsEnabled="False" IsReadOnly="True"/>
                         <TextBox Name="denom_R" Grid.Row="1" Grid.Column="2" Width="95" IsEnabled="False" IsReadOnly="True"/>
                         <TextBlock Grid.Row="2">分割数</TextBlock>
-                        <TextBox Name="sep_R" Grid.Row="2" Grid.ColumnSpan="2" Width="195" IsEnabled="False" IsReadOnly="True"/>
-                        <GridSplitter Grid.Row="3" Grid.ColumnSpan="3" Width="297" Height="auto" Margin="0,0,0,0" Background="Black" IsEnabled="False"/>
+                        <TextBox Name="sep_R" Grid.Row="2" Grid.ColumnSpan="3" Width="195" IsEnabled="False" IsReadOnly="True"/>
+                        <GridSplitter Grid.Row="3" Grid.ColumnSpan="3" Width="295" Background="Black" IsEnabled="False"/>
                         <TextBlock Grid.Row="4">拍子 (左/右)</TextBlock>
                         <TextBox Name="denom" Grid.Row="4" Width="95" PreviewTextInput="denom_PreviewTextInput"/>
                         <TextBox Name="mole" Grid.Row="4" Grid.Column="2" Width="95" PreviewTextInput="mole_PreviewTextInput"/>
                         <TextBlock Grid.Row="5">分割数</TextBlock>
                         <TextBox Name="sep" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="sep_PreviewTextInput"/>
-                        <Label Content="第" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
-                        <Label Content="小節の情報" HorizontalAlignment="Left" Margin="53,8,0,0" VerticalAlignment="Top"/>
-                        <DataGrid x:Name="TimeOptionsGrid" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Left" Height="90" Margin="6,155,0,0" VerticalAlignment="Top" Width="261"/>
-                        <Button x:Name="AddOptionButton" Click="AddOptionButton_Click" Content="追加" HorizontalAlignment="Left" Margin="201,253,0,0" VerticalAlignment="Top" Width="34"/>
-                        <ComboBox x:Name="TimeOptionsComboBox" Grid.Column="0" HorizontalAlignment="Left" Margin="4,250,0,0" VerticalAlignment="Top" Width="139"/>
-                        <TextBox x:Name="TimeOptionsValueTBox" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="148,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
-                        <Button x:Name="DeleteOptionButton" Click="DeleteOptionButton_Click" Content="削除" HorizontalAlignment="Left" Margin="239,253,0,0" VerticalAlignment="Top" Width="34"/>
-                        <Label Content="第" HorizontalAlignment="Left" Margin="7,129,0,0" VerticalAlignment="Top"/>
-                        <Label Content="拍のオプション" HorizontalAlignment="Left" Margin="63,129,0,0" VerticalAlignment="Top"/>
-                        <TextBox x:Name="SelectedTimeTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="29,132,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="34"/>
-                        <Button Name="SaveTimeOptions" Click="SaveTimeOptions_Click" Content="を保存する" HorizontalAlignment="Left" Margin="139,132,0,0" VerticalAlignment="Top" Width="59"/>
-                        <ComboBox x:Name="ActionSelectComboBox" Grid.Column="0" HorizontalAlignment="Left" Margin="7,71,0,0" VerticalAlignment="Top" Width="258"/>
-                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="4,123,0,0" Stroke="Black" VerticalAlignment="Top" Width="261"/>
-                        <Button x:Name="DoActionButton" Click="DoActionButton_Click" Content="実行" HorizontalAlignment="Left" Margin="190,100,0,0" VerticalAlignment="Top" Width="75"/>
-                        <Label Content="新規小節情報" HorizontalAlignment="Left" Margin="7,45,0,0" VerticalAlignment="Top" Width="90"/>
+                        <ComboBox Name="ActionSelectComboBox" Grid.Row="6" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Name="DoActionButton" Grid.Row="6" Grid.Column="2" Width="95" Click="DoActionButton_Click">実行</Button>
+                        <GridSplitter Grid.Row="7" Grid.ColumnSpan="3" Width="295" Height="auto" Background="Black" IsEnabled="False"/>
+                        <TextBlock Grid.Row="8">拍</TextBlock>
+                        <TextBox Name="SelectedTimeTBox" Grid.Row="8" Grid.ColumnSpan="2" Width="195" IsReadOnly="True" IsEnabled="False"/>
+                        <DataGrid Name="TimeOptionsGrid" Grid.Row="9" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button Name="AddOptionButton" Grid.Row="8" Click="AddOptionButton_Click" Content="追加" HorizontalAlignment="Left" Margin="201,253,0,0" VerticalAlignment="Top" Width="34"/>
+                        <ComboBox Name="TimeOptionsComboBox" Grid.Row="10" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Name="TimeOptionsValueTBox" Grid.Row="10" Grid.Column="2" Width="95" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput"/>
+                        <Button Name="DeleteOptionButton" Grid.Row="11" Grid.ColumnSpan="2" Width="95" Click="DeleteOptionButton_Click">削除</Button>
+                        <Button Name="SaveTimeOptions" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Width="95" Click="SaveTimeOptions_Click">保存</Button>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
