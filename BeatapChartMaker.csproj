@@ -113,7 +113,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Media\Graphics\Icon\OpenFile.png" />
+    <Resource Include="Media\Graphics\Icon\OpenFile.png" />
     <Resource Include="Media\Graphics\Icon\Eraser.png" />
     <Resource Include="Media\Graphics\Icon\SingleNote.png" />
     <Resource Include="Media\Graphics\Icon\DoubleNote.png" />

@@ -1,11 +1,11 @@
-<Window x:Class="BeatapChartMaker.MainWindow"
+﻿<Window x:Class="BeatapChartMaker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeatapChartMaker"
         mc:Ignorable="d"
-        Title="Beatap譜面エディタ" Height="720" Width="1280">
+        Title="Beatap譜面エディタ" Height="720" Width="821.525">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
+            <ColumnDefinition MaxWidth="300"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -62,16 +62,8 @@
                     <Setter Property="Grid.Column" Value="1"/>
                     <Setter Property="Width" Value="auto"/>
                     <Setter Property="Height" Value="24"/>
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="AllowDrop" Value="True"/>
-                    <Setter Property="TextWrapping" Value="NoWrap"/>
-                </Style>
-                <Style TargetType="Button">
-                    <Setter Property="Height" Value="24"/>
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
                 <Style TargetType="DataGrid">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -90,20 +82,16 @@
                     <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0">楽曲タイトル</TextBlock>
-                        <TextBox Name="SongNameTBox" Grid.ColumnSpan="2" Width="195" TextChanged="SongNameTBox_Changed"/>
+                        <TextBox Name="SongNameTBox" HorizontalAlignment="Left" TextChanged="SongNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185"></TextBox>
                         <TextBlock Grid.Row="1">楽曲アーティスト</TextBlock>
+<<<<<<< HEAD
                         <TextBox Name="ArtistNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ArtistNameTBox_Changed"/>
                         <TextBlock Grid.Row="2">楽曲ファイルパス</TextBlock>
                         <TextBox Name="AudioFilePathTBox" Grid.Row="2" Width="145" TextChanged="AudioFilePathTBox_Changed"/>
@@ -112,6 +100,16 @@
                         <TextBox Name="ThumbFilePathTBox" Grid.Row="3" Width="145" TextChanged="ThumbFilePathTBox_Changed"/>
                         <Button Name="ThumbRefButton" Grid.Row="3" Grid.Column="2" Width="45" Click="ThumbRefButton_Clicked">参照</Button>
                         <Button Name="SaveMusicDataButton" Grid.Row="4"  Grid.ColumnSpan="3" Width="290" Click="SaveMusicDataButton_Click">曲情報を保存する</Button>
+========
+                        <TextBox Name="ArtistNameTBox" HorizontalAlignment="Left" TextChanged="ArtistNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,5,0,0" Grid.Row="1"/>
+                        <TextBlock Grid.Row="1" Margin="0,36,0,-23"><Run Text="楽曲ファイルパス"/></TextBlock>
+                        <TextBox Name="AudioFilePathTBox" HorizontalAlignment="Left" TextChanged="AudioFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,34,0,-29" Grid.Row="1"/>
+                        <TextBlock Grid.Row="1" Margin="0,92,0,-79"><Run Text="画像ファイルパス"/></TextBlock>
+                        <TextBox Name="ThumbFilePathTBox" HorizontalAlignment="Left" TextChanged="ThumbFilePathTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,90,0,-85" Grid.Row="1"/>
+                        <Button Name="AudioRefButton" Click="AudioRefButton_Clicked" Content="参照" HorizontalAlignment="Left" Height="19" Margin="32,63,0,-53" VerticalAlignment="Top" Width="153" RenderTransformOrigin="0.502,2.421" Grid.Row="1" Grid.Column="1"/>
+                        <Button Name="ThumbRefButton" Click="ThumbRefButton_Clicked" Content="参照" HorizontalAlignment="Left" Height="19" Margin="32,119,0,-109" VerticalAlignment="Top" Width="153" Grid.Row="1" Grid.Column="1"/>
+                        <Button x:Name="SaveMusicDataButton" Click="SaveMusicDataButton_Click" Content="保存" HorizontalAlignment="Left" Height="110" Margin="0,143,0,-224" Grid.Row="1" VerticalAlignment="Top" Width="277" Grid.ColumnSpan="2"/>
+                        >>>>>>> master
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -119,9 +117,8 @@
                 <ScrollViewer>
                     <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="92*"/>
+                            <ColumnDefinition Width="185*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -134,7 +131,8 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0">譜面名</TextBlock>
+                        <TextBlock Grid.Row="0" Margin="0,7,0,6">譜面名</TextBlock>
+                        <<<<<<< HEAD
                         <TextBox Name="ChartNameTBox" Grid.ColumnSpan="2" Width="195" TextChanged="ChartNameTBox_Changed"/>
                         <TextBlock Grid.Row="1">譜面作成者</TextBlock>
                         <TextBox Name="ChartDesignerNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
@@ -152,12 +150,33 @@
                         <Button Name="AddChartOptionButton" Grid.Row="8" Grid.Column="0" Width="95" Click="AddChartOptionButton_Click">追加</Button>
                         <Button Name="DeleteChartOptionButton" Grid.Row="8" Grid.Column="1" Width="95" Click="DeleteChartOptionButton_Click">削除</Button>
                         <Button Name="SaveChartOptionsButton" Grid.Row="8" Grid.Column="2" Width="95" Click="SaveChartOptionsButton_Click">保存</Button>
+=======
+                        <TextBox Name="ChartNameTBox" HorizontalAlignment="Left" TextChanged="ChartNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0"></TextBox>
+                        <TextBlock Grid.Row="1" Margin="0,7,0,6">譜面作成者</TextBlock>
+                        <TextBox Name="ChartDesignerNameTBox" HorizontalAlignment="Left" TextChanged="ChartDesignerNameTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="1"></TextBox>
+                        <TextBlock Grid.Row="2" Margin="0,7,0,6">判定</TextBlock>
+                        <TextBox Name="ChartJudgeTBox" HorizontalAlignment="Left" TextChanged="ChartJudgeTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="2"></TextBox>
+                        <TextBlock Grid.Row="3" Margin="0,7,0,6">レベル</TextBlock>
+                        <TextBox Name="ChartLevelTBox" PreviewTextInput="ChartLevelTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartLevelTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,3,0,0" Grid.Row="3"></TextBox>
+                        <TextBlock Grid.Row="4" Margin="0,7,0,6">基本BPM</TextBlock>
+                        <TextBox Name="ChartStandardBPMTBox" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartStandardBPMTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="4"></TextBox>
+                        <TextBlock Grid.Row="5" Margin="0,7,0,6">オフセット値</TextBlock>
+                        <TextBox Name="ChartOffsetTBox" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" HorizontalAlignment="Left" TextChanged="ChartOffsetTBox_Changed" AllowDrop="True" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="185" Margin="0,2,0,0" Grid.Row="5"></TextBox>
+                        <DataGrid x:Name="ChartOptionsGrid" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged" IsReadOnly="True" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="75" Margin="0,10,0,0" Grid.Row="6" VerticalAlignment="Top" Width="277" Grid.RowSpan="3"/>
+                        <ComboBox x:Name="ChartOptionsComboBox" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,1,0,0" Grid.Row="8" VerticalAlignment="Top" Width="127"/>
+                        <TextBox x:Name="ChartOptionsValueTBox" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="40,1,0,0" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
+                        <Button x:Name="AddChartOptionButton" Click="AddChartOptionButton_Click" Content="追加" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="83,1,0,0" Grid.Row="8" VerticalAlignment="Top" Width="32" RenderTransformOrigin="1.312,0.478"/>
+                        <Button x:Name="DeleteChartOptionButton" Click="DeleteChartOptionButton_Click" Content="削除" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="120,1,0,0" Grid.Row="8" VerticalAlignment="Top" Width="32" RenderTransformOrigin="1.062,0.609"/>
+                        <Button x:Name="SaveChartOptionsButton" Click="SaveChartOptionsButton_Click" Content="保存" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="157,1,0,0" Grid.Row="8" VerticalAlignment="Top" Width="28"/>
+                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="6,1,0,0" Stroke="Black" VerticalAlignment="Top" Width="261" Grid.ColumnSpan="2" Grid.Row="6"/>
+                        >>>>>>> master
                     </Grid>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="エディタ">
                 <ScrollViewer>
                     <Grid Width="auto" Background="#FFFaFaFF">
+                        <<<<<<< HEAD
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -201,6 +220,37 @@
                         <Button Name="AddOptionButton" Grid.Row="11" Width="95" Click="AddOptionButton_Click">追加</Button>
                         <Button Name="DeleteOptionButton" Grid.Row="11" Grid.Column="1" Width="95" Click="DeleteOptionButton_Click">削除</Button>
                         <Button Name="SaveTimeOptions" Grid.Row="11" Grid.Column="2" Width="95" Click="SaveTimeOptions_Click">保存</Button>
+=======
+                        <TextBox Name="SelectedMeasureIndexTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="32"/>
+                        <TextBox Name="denom" PreviewTextInput="denom_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="102,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="分の" HorizontalAlignment="Left" Margin="114,45,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="mole" PreviewTextInput="mole_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="150,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="拍子" HorizontalAlignment="Left" Margin="163,45,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="sep" PreviewTextInput="sep_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="21" Margin="205,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="25"/>
+                        <Label Content="分割" HorizontalAlignment="Left" Margin="231,45,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="4,36,0,0" Stroke="Black" VerticalAlignment="Top" Width="261"/>
+                        <TextBox x:Name="denom_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="122,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="分の" HorizontalAlignment="Left" Margin="132,7,0,0" VerticalAlignment="Top" Height="24" Width="31"/>
+                        <TextBox x:Name="mole_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="164,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="12"/>
+                        <Label Content="拍子" HorizontalAlignment="Left" Margin="173,7,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <TextBox x:Name="sep_R" Grid.Column="0" HorizontalAlignment="Left" IsReadOnly="True" Height="21" Margin="207,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="25"/>
+                        <Label Content="分割" HorizontalAlignment="Left" Margin="233,7,0,0" VerticalAlignment="Top" Height="24" Width="34"/>
+                        <Label Content="第" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
+                        <Label Content="小節の情報" HorizontalAlignment="Left" Margin="53,8,0,0" VerticalAlignment="Top"/>
+                        <DataGrid x:Name="TimeOptionsGrid" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Left" Height="90" Margin="6,155,0,0" VerticalAlignment="Top" Width="261"/>
+                        <Button x:Name="AddOptionButton" Click="AddOptionButton_Click" Content="追加" HorizontalAlignment="Left" Margin="201,253,0,0" VerticalAlignment="Top" Width="34"/>
+                        <ComboBox x:Name="TimeOptionsComboBox" Grid.Column="0" HorizontalAlignment="Left" Margin="4,250,0,0" VerticalAlignment="Top" Width="139"/>
+                        <TextBox x:Name="TimeOptionsValueTBox" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="148,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
+                        <Button x:Name="DeleteOptionButton" Click="DeleteOptionButton_Click" Content="削除" HorizontalAlignment="Left" Margin="239,253,0,0" VerticalAlignment="Top" Width="34"/>
+                        <Label Content="第" HorizontalAlignment="Left" Margin="7,129,0,0" VerticalAlignment="Top"/>
+                        <Label Content="拍のオプション" HorizontalAlignment="Left" Margin="63,129,0,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="SelectedTimeTBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="29,132,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="34"/>
+                        <Button Name="SaveTimeOptions" Click="SaveTimeOptions_Click" Content="を保存する" HorizontalAlignment="Left" Margin="139,132,0,0" VerticalAlignment="Top" Width="59"/>
+                        <ComboBox x:Name="ActionSelectComboBox" Grid.Column="0" HorizontalAlignment="Left" Margin="7,71,0,0" VerticalAlignment="Top" Width="258"/>
+                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="4,123,0,0" Stroke="Black" VerticalAlignment="Top" Width="261"/>
+                        <Button x:Name="DoActionButton" Click="DoActionButton_Click" Content="実行" HorizontalAlignment="Left" Margin="190,100,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Label Content="新規小節情報" HorizontalAlignment="Left" Margin="7,45,0,0" VerticalAlignment="Top" Width="90"/>
+                        >>>>>>> master
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -222,18 +272,15 @@
         <!-- (2,0) 譜面リスト ChartList Grid -->
         <Grid Grid.Row="2" Grid.Column="0" Width="auto">
             <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
-                <RowDefinition/>
+                <RowDefinition Height="321"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name="SelectChartButton" Grid.Column="0" Width="96" Height="24" Click="SelectChartButton_Clicked" HorizontalAlignment="Center" VerticalAlignment="Center">譜面を編集</Button>
-            <Button Name="DeleteChartButton" Grid.Column="1" Width="96" Height="24" Click="DeleteChartButton_Clicked" HorizontalAlignment="Center" VerticalAlignment="Center">譜面を削除</Button>
-            <Button Name="CreateChartButton" Grid.Column="2" Width="96" Height="24" Click="CreateChartButton_Clicked" HorizontalAlignment="Center" VerticalAlignment="Center">新規譜面</Button>
-            <DataGrid Name="chartListGrid" Grid.Row="1" Grid.ColumnSpan="3" Width="320" SelectedCellsChanged="ChartListGrid_SelectedCellsChanged" IsReadOnly="True" Background="#FFFaFaFF"/>
+            <DataGrid Name="chartListGrid" SelectedCellsChanged="ChartListGrid_SelectedCellsChanged" HorizontalAlignment="Left" Width="300" Margin="0,36,0,0" IsReadOnly="True" Background="#FFFaFaFF"/>
+            <Button Name="SelectChartButton" Content="選択譜面編集" Click="SelectChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="36"/>
+            <Button Name="DeleteChartButton" Content="選択譜面削除" Click="DeleteChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Height="36" Margin="107,0,0,0"/>
+            <Button Name="CreateChartButton" Content="新規譜面" Click="CreateChartButton_Clicked" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="36" Margin="208,0,0,0"/>
         </Grid>
         <Label Content="小節" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Margin="6,30,0,0" Grid.RowSpan="2"/>
     </Grid>
