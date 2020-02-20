@@ -113,8 +113,9 @@
                 <ScrollViewer>
                     <Grid Width="auto" Background="#FFFaFaFF">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -123,26 +124,28 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition Height="56"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0">譜面名</TextBlock>
-                        <TextBox Name="ChartNameTBox" Width="195" TextChanged="ChartNameTBox_Changed"/>
+                        <TextBox Name="ChartNameTBox" Grid.ColumnSpan="2" Width="195" TextChanged="ChartNameTBox_Changed"/>
                         <TextBlock Grid.Row="1">譜面作成者</TextBlock>
-                        <TextBox Name="ChartDesignerNameTBox" Grid.Row="1" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
+                        <TextBox Name="ChartDesignerNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
                         <TextBlock Grid.Row="2">判定</TextBlock>
-                        <TextBox Name="ChartJudgeTBox" Grid.Row="2" Width="195" TextChanged="ChartJudgeTBox_Changed"/>
+                        <TextBox Name="ChartJudgeTBox" Grid.Row="2" Grid.ColumnSpan="2" Width="195" TextChanged="ChartJudgeTBox_Changed"/>
                         <TextBlock Grid.Row="3">レベル</TextBlock>
-                        <TextBox Name="ChartLevelTBox" Grid.Row="3" Width="195" PreviewTextInput="ChartLevelTBox_PreviewTextInput" TextChanged="ChartLevelTBox_Changed"/>
+                        <TextBox Name="ChartLevelTBox" Grid.Row="3" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartLevelTBox_PreviewTextInput" TextChanged="ChartLevelTBox_Changed"/>
                         <TextBlock Grid.Row="4">基本BPM</TextBlock>
-                        <TextBox Name="ChartStandardBPMTBox" Grid.Row="4" Width="195" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" TextChanged="ChartStandardBPMTBox_Changed"/>
+                        <TextBox Name="ChartStandardBPMTBox" Grid.Row="4" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" TextChanged="ChartStandardBPMTBox_Changed"/>
                         <TextBlock Grid.Row="5">オフセット値</TextBlock>
-                        <TextBox Name="ChartOffsetTBox" Grid.Row="5" Width="195" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" TextChanged="ChartOffsetTBox_Changed"/>
-                        <DataGrid x:Name="ChartOptionsGrid" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged" IsReadOnly="True" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="75" Margin="0,39,0,-85" Grid.Row="5" VerticalAlignment="Top" Width="277"/>
-                        <ComboBox x:Name="ChartOptionsComboBox" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,114,0,-109" Grid.Row="5" VerticalAlignment="Top" Width="127"/>
-                        <TextBox x:Name="ChartOptionsValueTBox" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput" HorizontalAlignment="Left" Height="23" Margin="40,114,0,-108" Grid.Row="5" TextWrapping="Wrap" VerticalAlignment="Top" Width="38"/>
-                        <Button x:Name="AddChartOptionButton" Click="AddChartOptionButton_Click" Content="追加" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="83,114,0,-108" Grid.Row="5" VerticalAlignment="Top" Width="32" RenderTransformOrigin="1.312,0.478"/>
-                        <Button x:Name="DeleteChartOptionButton" Click="DeleteChartOptionButton_Click" Content="削除" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="120,114,0,-108" Grid.Row="5" VerticalAlignment="Top" Width="32" RenderTransformOrigin="1.062,0.609"/>
-                        <Button x:Name="SaveChartOptionsButton" Click="SaveChartOptionsButton_Click" Content="保存" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="157,114,0,-108" Grid.Row="5" VerticalAlignment="Top" Width="28"/>
-                        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="6,30,0,-5" Stroke="Black" VerticalAlignment="Top" Width="261" Grid.ColumnSpan="2" Grid.Row="5"/>
+                        <TextBox Name="ChartOffsetTBox" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" TextChanged="ChartOffsetTBox_Changed"/>
+                        <DataGrid Name="ChartOptionsGrid" Grid.Row="6" Grid.ColumnSpan="3" Height="50" Width="290" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ComboBox Name="ChartOptionsComboBox" Grid.Row="7" Grid.ColumnSpan="2" Width="195" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox Name="ChartOptionsValueTBox" Grid.Row="7" Grid.Column="2" Width="95" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput"/>
+                        <Button Name="AddChartOptionButton" Grid.Row="8" Grid.Column="0" Width="95" Click="AddChartOptionButton_Click">追加</Button>
+                        <Button Name="DeleteChartOptionButton" Grid.Row="8" Grid.Column="1" Width="95" Click="DeleteChartOptionButton_Click">削除</Button>
+                        <Button Name="SaveChartOptionsButton" Grid.Row="8" Grid.Column="2" Width="95" Click="SaveChartOptionsButton_Click">保存</Button>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
