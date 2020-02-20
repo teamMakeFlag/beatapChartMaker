@@ -53,7 +53,8 @@ namespace BeatapChartMaker
         private List<int> ChartOffsets = new List<int>();
         private ChartsData _SelectedChart;
         private ChartsData SelectedChart;
-        private Tuple<String,String> SelectedOption;
+        private Tuple<String, String> SelectedTimeOption;
+        private Tuple<String, String> SelectedChartOption;
         private int EdittingID = -1;
         public String DefaultWorkSpacePath = "";
         public String FunctionMode = "";
@@ -62,26 +63,46 @@ namespace BeatapChartMaker
         private List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>>();
         readonly List<ChartsData> cdlist = new List<ChartsData>();
         readonly List<Tuple<String, String>> tolist = new List<Tuple<string, string>>();
+        readonly List<Tuple<String, String>> colist = new List<Tuple<string, string>>();
         private int SelectedMeasureIndex = -1;
         private int PenMode = -1;
 
         public MainWindow()
         {
-            InitializeComponent();;
+            InitializeComponent();
+            ChartOptionsComboBox.Items.Add("TOTAL");
+            ChartOptionsComboBox.Items.Add("SCROLL");
+            ChartOptionsComboBox.Items.Add("HOSEI_RATE");
+            ChartOptionsComboBox.Items.Add("HOSEI_BORDER");
+            ChartOptionsComboBox.Items.Add("START_GAUGE");
+            ChartOptionsComboBox.Items.Add("GAUGE_TYPE");
             TimeOptionsComboBox.Items.Add("BPMCHANGE");
             TimeOptionsComboBox.Items.Add("SCROLL");
+            ActionSelectComboBox.Items.Add("末尾に小節を作成");
+            ActionSelectComboBox.Items.Add("選択中の小節の前に小節を作成");
+            ActionSelectComboBox.Items.Add("選択中の小節の後ろに小節を作成");
+            ActionSelectComboBox.Items.Add("選択中の小節のノーツを削除");
+            ActionSelectComboBox.Items.Add("選択中の小節を削除");
+            ActionSelectComboBox.Items.Add("選択中の小節をコピー");
+            ActionSelectComboBox.Items.Add("選択中の小節の前にコピーした小節を貼り付け");
+            ActionSelectComboBox.Items.Add("選択中の小節の後ろにコピーした小節を貼り付け");
             GetConfigData();
             if (DefaultWorkSpacePath != "") OpenProject(DefaultWorkSpacePath);
         }
 
         private void UpdateDataList()
         {
-            this.chartListGrid.ItemsSource = new ReadOnlyCollection<ChartsData>(cdlist);
+            chartListGrid.ItemsSource = new ReadOnlyCollection<ChartsData>(cdlist);
         }
 
         private void UpdateTODataList()
         {
-            this.TimeOptionsGrid.ItemsSource = new ReadOnlyCollection<Tuple<String, String>>(tolist);
+            TimeOptionsGrid.ItemsSource = new ReadOnlyCollection<Tuple<String, String>>(tolist);
+        }
+
+        private void UpdateCODataList()
+        {
+            ChartOptionsGrid.ItemsSource = new ReadOnlyCollection<Tuple<String, String>>(colist);
         }
 
         private void GetConfigData()
@@ -144,7 +165,12 @@ namespace BeatapChartMaker
                 ChartLevelTBox.Text = ChartLevels[_SelectedChart.ID].ToString();
                 ChartStandardBPMTBox.Text = ChartStandardBPMs[_SelectedChart.ID].ToString();
                 ChartOffsetTBox.Text = ChartOffsets[_SelectedChart.ID].ToString();
+                for(int i = 0; i < ChartsOptions[_SelectedChart.ID].Count(); i++)
+                {
+                    colist.Add(ChartsOptions[_SelectedChart.ID][i]);
+                }
                 DrawChartData();
+                UpdateCODataList();
             }
         }
 
@@ -200,74 +226,6 @@ namespace BeatapChartMaker
             UpdateDataList();
         }
 
-        private void CreateMeasureButton_Clicked(object sender, RoutedEventArgs e)
-        {
-            if (_SelectedChart != null)
-            {
-                List<List<Button>> meab = new List<List<Button>>();
-                List<Button> timb = new List<Button>();
-                List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, List<Tuple<string, string>>>>();
-                for (int i = 0; i < int.Parse(sep.Text); i++)
-                {
-                    List<int>row = new List<int>();
-                    timb = new List<Button>();
-                    ChartDataGrid.RowDefinitions.Add(new RowDefinition());
-                    int index = ChartData[_SelectedChart.ID].Item2.Count;
-                    if (i == 0)
-                    {
-                        Button label = new Button();
-                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
-                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
-                        String d = denom.Text;
-                        String m = mole.Text;
-                        String s = sep.Text;
-                        label.Content = index+1;
-                        label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s, index+1);
-                        Grid.SetColumn(label, 0);
-                        Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1);
-                        ChartDataGrid.Children.Add(label);
-                    }
-                    else
-                    {
-                        Label label = new Label();
-                        label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
-                        label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
-                        label.Content = " ";
-                        Grid.SetColumn(label, 0);
-                        Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1+i);
-                        ChartDataGrid.Children.Add(label);
-                    }
-                    for (int j = 1; j < 6; j++)
-                    {
-                        Button note = new Button();
-                        note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
-                        int t = i;
-                        int l = j - 1;
-                        note.Click += (lsender, le) => NoteButton_Clicked(lsender, index, t, l);
-                        Grid.SetColumn(note, j);
-                        Grid.SetRow(note, i + ChartData[_SelectedChart.ID].Item1);
-                        ChartDataGrid.Children.Add(note);
-                        timb.Add(note);
-                        row.Add(0);
-                    }
-                    measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(row, new List<Tuple<string, string>>()));
-                    Button func = new Button();
-                    String time = (i + 1).ToString();
-                    int mea = ChartData[_SelectedChart.ID].Item2.Count;
-                    int tm = i;
-                    func.Content = time;
-                    func.Click += (lsender, le) => FunctionButton_Click(lsender, mea,tm);
-                    Grid.SetColumn(func, 6);
-                    Grid.SetRow(func, i+ChartData[_SelectedChart.ID].Item1);
-                    ChartDataGrid.Children.Add(func);
-                    meab.Add(timb);
-                }
-                DButtons.Add(meab);
-                ChartData[_SelectedChart.ID].Item2.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String,String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text),measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
-            }
-        }
-
         private void MeasureButton_Clicked(object sender,String d, String m, String s, int index)
         {
             denom_R.Text = d;
@@ -275,10 +233,156 @@ namespace BeatapChartMaker
             sep_R.Text = s;
             SelectedMeasureIndex = index-1;
             SelectedTimeTBox.Text = "";
-            SelectedOption = null;
+            SelectedTimeOption = null;
             tolist.Clear();
             UpdateTODataList();
             SelectedMeasureIndexTBox.Text = (SelectedMeasureIndex+1).ToString();
+        }
+
+        private void DoActionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActionSelectComboBox.SelectedValue.ToString() != "")
+            {
+                if (ActionSelectComboBox.SelectedValue.ToString() == "末尾に小節を作成")
+                {
+                    if (_SelectedChart != null)
+                    {
+                        List<List<Button>> meab = new List<List<Button>>();
+                        List<Button> timb = new List<Button>();
+                        List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, List<Tuple<string, string>>>>();
+                        for (int i = 0; i < int.Parse(sep.Text); i++)
+                        {
+                            List<int> row = new List<int>();
+                            timb = new List<Button>();
+                            ChartDataGrid.RowDefinitions.Add(new RowDefinition());
+                            int index = ChartData[_SelectedChart.ID].Item2.Count;
+                            if (i == 0)
+                            {
+                                Button label = new Button();
+                                label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                                label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(220, 220, 220));
+                                String d = denom.Text;
+                                String m = mole.Text;
+                                String s = sep.Text;
+                                label.Content = index + 1;
+                                label.Click += (lsender, le) => MeasureButton_Clicked(lsender, d, m, s, index + 1);
+                                Grid.SetColumn(label, 0);
+                                Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1);
+                                ChartDataGrid.Children.Add(label);
+                            }
+                            else
+                            {
+                                Label label = new Label();
+                                label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                                label.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(200, 200, 200));
+                                label.Content = " ";
+                                Grid.SetColumn(label, 0);
+                                Grid.SetRow(label, ChartData[_SelectedChart.ID].Item1 + i);
+                                ChartDataGrid.Children.Add(label);
+                            }
+                            for (int j = 1; j < 6; j++)
+                            {
+                                Button note = new Button();
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
+                                int t = i;
+                                int l = j - 1;
+                                note.Click += (lsender, le) => NoteButton_Clicked(lsender, index, t, l);
+                                Grid.SetColumn(note, j);
+                                Grid.SetRow(note, i + ChartData[_SelectedChart.ID].Item1);
+                                ChartDataGrid.Children.Add(note);
+                                timb.Add(note);
+                                row.Add(0);
+                            }
+                            measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(row, new List<Tuple<string, string>>()));
+                            Button func = new Button();
+                            String time = (i + 1).ToString();
+                            int mea = ChartData[_SelectedChart.ID].Item2.Count;
+                            int tm = i;
+                            func.Content = time;
+                            func.Click += (lsender, le) => FunctionButton_Click(lsender, mea, tm);
+                            Grid.SetColumn(func, 6);
+                            Grid.SetRow(func, i + ChartData[_SelectedChart.ID].Item1);
+                            ChartDataGrid.Children.Add(func);
+                            meab.Add(timb);
+                        }
+                        DButtons.Add(meab);
+                        ChartData[_SelectedChart.ID].Item2.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                    }
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の前に小節を作成")
+                {
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1)
+                    {
+                        List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, System.Collections.Generic.List<Tuple<string, string>>>>();
+                        for (int i = 0; i < int.Parse(sep.Text); i++)
+                        {
+                            List<int> time = new List<int>();
+                            for (int j = 0; j < 5; j++) time.Add(0);
+                            measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(time, new List<Tuple<string, string>>()));
+                        }
+                        ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                        DrawChartData();
+                    }
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の後ろに小節を作成")
+                {
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1)
+                    {
+                        List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, List<Tuple<String, String>>>>();
+                        for (int i = 0; i < int.Parse(sep.Text); i++)
+                        {
+                            List<int> time = new List<int>();
+                            for (int j = 0; j < 5; j++) time.Add(0);
+                            measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(time, new List<Tuple<String, String>>()));
+                        }
+                        ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex + 1, Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
+                        DrawChartData();
+                    }
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節のノーツを削除")
+                {
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1)
+                    {
+                        for (int i = 0; i < ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4.Count; i++)
+                        {
+                            for (int j = 0; j < 5; j++)
+                            {
+                                ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[i].Item1[j] = 0;
+                            }
+                        }
+                        DrawChartData();
+                    }
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節を削除")
+                {
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1)
+                    {
+                        int ds = ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item3;
+                        ChartData[_SelectedChart.ID].Item2.RemoveAt(SelectedMeasureIndex);
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 - ds, ChartData[_SelectedChart.ID].Item2);
+                        SelectedMeasureIndex = -1;
+                        denom_R.Text = "";
+                        mole_R.Text = "";
+                        sep_R.Text = "";
+                        DrawChartData();
+                    }
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節をコピー")
+                {
+
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の前にコピーした小節を貼り付け")
+                {
+
+                }
+                else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の後ろにコピーした小節を貼り付け")
+                {
+
+                }
+            }
         }
 
         private void NoteButton_Clicked(object sender, int measure, int time, int lane)
@@ -326,70 +430,6 @@ namespace BeatapChartMaker
             fs.Close();
         }
 
-        private void CreateMeasureBeforeSelectedButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_SelectedChart != null && SelectedMeasureIndex != -1)
-            {
-                List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, System.Collections.Generic.List<Tuple<string, string>>>>();
-                for(int i = 0; i < int.Parse(sep.Text); i++)
-                {
-                    List<int> time = new List<int>();
-                    for (int j = 0; j < 5; j++) time.Add(0);
-                    measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(time,new List<Tuple<string, string>>()));
-                }
-                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
-                DrawChartData();
-            }
-        }
-
-        private void CreateMeasureAfterSelectedButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_SelectedChart != null && SelectedMeasureIndex != -1)
-            {
-                List<Tuple<List<int>, List<Tuple<String, String>>>> measure = new List<Tuple<List<int>, List<Tuple<String, String>>>>();
-                for (int i = 0; i < int.Parse(sep.Text); i++)
-                {
-                    List<int> time = new List<int>();
-                    for (int j = 0; j < 5; j++) time.Add(0);
-                    measure.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(time,new List<Tuple<String, String>>()));
-                }
-                ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex+1, Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(int.Parse(denom.Text), int.Parse(mole.Text), int.Parse(sep.Text), measure));
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + int.Parse(sep.Text), ChartData[_SelectedChart.ID].Item2);
-                DrawChartData();
-            }
-        }
-        
-        private void ClearSelectedMeasureButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_SelectedChart != null && SelectedMeasureIndex != -1)
-            {
-                for(int i=0; i < ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4.Count; i++)
-                {
-                    for (int j = 0; j < 5; j++)
-                    {
-                        ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[i].Item1[j] = 0;
-                    }
-                }
-                DrawChartData();
-            }
-        }
-
-        private void DeleteSelectedMeasureButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(_SelectedChart != null && SelectedMeasureIndex != -1)
-            {
-                int ds = ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item3;
-                ChartData[_SelectedChart.ID].Item2.RemoveAt(SelectedMeasureIndex);
-                ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 - ds, ChartData[_SelectedChart.ID].Item2);
-                SelectedMeasureIndex = -1;
-                denom_R.Text = "";
-                mole_R.Text = "";
-                sep_R.Text = "";
-                DrawChartData();
-            }
-        }
-
         private void FunctionButton_Click(object sender, int measure, int time)
         {
             denom_R.Text = ChartData[_SelectedChart.ID].Item2[measure].Item2.ToString();
@@ -433,11 +473,11 @@ namespace BeatapChartMaker
             {
                 StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
                 cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + "\n");
-                cfs.Write("START\n");
                 for(int i = 0; i < ChartsOptions[_SelectedChart.ID].Count(); i++)
                 {
                     cfs.Write(ChartsOptions[_SelectedChart.ID][i].Item1+","+ ChartsOptions[_SelectedChart.ID][i].Item2+"\n");
                 }
+                cfs.Write("START\n");
                 for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count(); i++)
                 {
                     cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + "\n");
@@ -917,17 +957,17 @@ namespace BeatapChartMaker
 
         private void DeleteOptionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedOption != null)
+            if (SelectedTimeOption != null)
             {
-                tolist.Remove(SelectedOption);
+                tolist.Remove(SelectedTimeOption);
                 UpdateTODataList();
-                SelectedOption = null;
+                SelectedTimeOption = null;
             }
         }
 
         private void TimeOptionsGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            SelectedOption = (Tuple<String,String>)TimeOptionsGrid.SelectedItem;
+            SelectedTimeOption = (Tuple<String,String>)TimeOptionsGrid.SelectedItem;
         }
 
         private void SaveTimeOptions_Click(object sender, RoutedEventArgs e)
@@ -939,6 +979,44 @@ namespace BeatapChartMaker
                 {
                     ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex].Item4[int.Parse(SelectedTimeTBox.Text)-1].Item2.Add(tolist[i]);
                 }
+            }
+        }
+
+        private void ChartOptionValueTBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !new Regex("[0-9]").IsMatch(e.Text);
+        }
+
+        private void AddChartOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            int idummy;
+            if (_SelectedChart != null && ChartOptionsValueTBox.Text != "" && ChartOptionsComboBox.SelectedValue != null && int.TryParse(ChartOptionsValueTBox.Text, out idummy))
+            {
+                colist.Add(Tuple.Create<String, String>(ChartOptionsComboBox.SelectedValue.ToString(), ChartOptionsValueTBox.Text.ToString()));
+                UpdateCODataList();
+            }
+        }
+
+        private void DeleteChartOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedChartOption != null)
+            {
+                colist.Remove(SelectedChartOption);
+                UpdateCODataList();
+                SelectedChartOption = null;
+            }
+        }
+
+        private void ChartOptionsGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            SelectedChartOption = (Tuple<String, String>)ChartOptionsGrid.SelectedItem;
+        }
+
+        private void SaveChartOptionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_SelectedChart != null)
+            {
+                ChartsOptions[_SelectedChart.ID] = colist;
             }
         }
     }
