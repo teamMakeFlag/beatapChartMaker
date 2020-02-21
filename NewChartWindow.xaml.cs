@@ -52,7 +52,7 @@ namespace BeatapChartMaker
             if (ChartNameTBox.Text != "" && DesignerNameTBox.Text != "" && ChartLevelTBox.Text != "" && ChartOffsetTBox.Text != "" && ChartStandardBPMTBox.Text != "")
             {
                 StreamWriter cfs = new StreamWriter(((MainWindow)this.Owner).DefaultWorkSpacePath+"\\"+ChartNameTBox.Text+".csv", false, System.Text.Encoding.Default);
-                cfs.Write(ChartNameTBox.Text + "," + ChartLevelTBox.Text + "," + DesignerNameTBox.Text + "," + ChartOffsetTBox.Text+"," + ChartStandardBPMTBox.Text + "," + judgecombo.SelectedValue + "\n");
+                cfs.Write(ChartNameTBox.Text + "," + ChartLevelTBox.Text + "," + DesignerNameTBox.Text + "," +  ChartStandardBPMTBox.Text + "," + ChartOffsetTBox.Text + "," + judgecombo.SelectedValue + "\n");
                 cfs.Write("START\n");
                 cfs.Write("END\n");
                 cfs.Close();

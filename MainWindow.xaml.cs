@@ -629,15 +629,15 @@ namespace BeatapChartMaker
             if (_SelectedChart != null)
             {
                 StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
-                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartOffset.ToString() + "," + ChartStandardBPM.ToString() + "," + ChartJudge + "\n");
+                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset.ToString() + "," + ChartJudge + ",\n");
                 for(int i = 0; i < ChartsOptions[_SelectedChart.ID].Count(); i++)
                 {
                     cfs.Write(ChartsOptions[_SelectedChart.ID][i].Item1+","+ ChartsOptions[_SelectedChart.ID][i].Item2+"\n");
                 }
-                cfs.Write("START\n");
+                cfs.Write("START,\n");
                 for (int i = 0; i < ChartData[_SelectedChart.ID].Item2.Count(); i++)
                 {
-                    cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + "\n");
+                    cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item1.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item2.ToString() + "," + ChartData[_SelectedChart.ID].Item2[i].Item3.ToString() + ",\n");
                     for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count; j++)
                     {
                         for (int k = 0; k < 5; k++)
@@ -658,11 +658,12 @@ namespace BeatapChartMaker
                                 cfs.Write(ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2[l].Item2);
                                 if (l < ChartData[_SelectedChart.ID].Item2[i].Item4[j].Item2.Count() - 1) cfs.Write("+");
                             }
+                            cfs.Write(",");
                         }
                         cfs.Write("\n");
                     }
                 }
-                cfs.Write("END\n");
+                cfs.Write("END,\n");
                 cfs.Close();
             }
         }
