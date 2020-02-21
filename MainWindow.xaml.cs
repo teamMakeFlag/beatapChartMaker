@@ -1165,5 +1165,10 @@ namespace BeatapChartMaker
                 ChartsOptions[_SelectedChart.ID] = colist;
             }
         }
+
+        private void ConfigChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            //
+        }
     }
 }

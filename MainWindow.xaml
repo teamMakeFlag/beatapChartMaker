@@ -27,6 +27,9 @@
             <Button Click="OpenProjectButton_Clicked" ToolTip="プロジェクトを開く">
                 <Image Source="Media/Graphics/Icon/OpenFile.png"/>
             </Button>
+            <Button Name="ConfigChartButton" Click="ConfigChartButton_Click" ToolTip="環境設定">
+                <Image Source="Media/Graphics/Icon/Config.png"/>
+            </Button>
             <Separator/>
             <Button Name="SaveChartButton" Click="SaveChartButton_Click" ToolTip="譜面を保存">
                 <Image Source="Media/Graphics/Icon/Save.png"/>
