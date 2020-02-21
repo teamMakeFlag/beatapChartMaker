@@ -394,79 +394,86 @@ namespace BeatapChartMaker
         {
             if (IsLongNoteMode)
             {
-                if(!(FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 == time ) && FirstLongModeSelected.Item3 == lane)
+                if (DButtons[measure][time][lane].Background.ToString() == "#FF000000")
                 {
-                    bool isOK = true;
-                    if(FirstLongModeSelected.Item1<measure || (FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 < time))
+                    if (!(FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 == time) && FirstLongModeSelected.Item3 == lane)
                     {
-                        for(int i = FirstLongModeSelected.Item1; i <= measure; i++)
-                        {
-                            for(int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
-                            {
-                                if (i == FirstLongModeSelected.Item1 && j == 0) j = FirstLongModeSelected.Item2+1;
-                                if (i == measure && j == time) break;
-                                else if (DButtons[i][j][lane].Background == new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131)))
-                                {
-                                    isOK = false;
-                                }
-                            }
-                        }
-                        if (isOK)
+                        bool isOK = true;
+                        if (FirstLongModeSelected.Item1 < measure || (FirstLongModeSelected.Item1 == measure && FirstLongModeSelected.Item2 < time))
                         {
                             for (int i = FirstLongModeSelected.Item1; i <= measure; i++)
                             {
                                 for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
                                 {
                                     if (i == FirstLongModeSelected.Item1 && j == 0) j = FirstLongModeSelected.Item2 + 1;
+                                    if (j == ChartData[_SelectedChart.ID].Item2[i].Item4.Count()) break;
                                     if (i == measure && j == time) break;
-                                    else
+                                    if (DButtons[i][j][lane].Background.ToString() != "#FF000000")
                                     {
-                                        DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                        isOK = false;
                                     }
                                 }
                             }
-                            ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
-                            DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
-                            StartLongNotePoint.Add(FirstLongModeSelected);
-                            FinishLongNotePoint.Add(Tuple.Create<int,int,int>(measure,time,lane));
-                            IsLongNoteMode = false;
-                            FirstLongModeSelected = null;
-                        }
-                    }
-                    else
-                    {
-                        for (int i = measure; i <= FirstLongModeSelected.Item1; i++)
-                        {
-                            for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
+                            if (isOK)
                             {
-                                if (i == measure && j == 0) j = time + 1;
-                                if (i == FirstLongModeSelected.Item1 && j == FirstLongModeSelected.Item2) break;
-                                else if (DButtons[i][j][lane].Background == new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131)))
+                                for (int i = FirstLongModeSelected.Item1; i <= measure; i++)
                                 {
-                                    isOK = false;
+                                    for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
+                                    {
+                                        if (i == FirstLongModeSelected.Item1 && j == 0) j = FirstLongModeSelected.Item2 + 1;
+                                        if (j == ChartData[_SelectedChart.ID].Item2[i].Item4.Count()) break;
+                                        if (i == measure && j == time) break;
+                                        else
+                                        {
+                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                        }
+                                    }
                                 }
+                                ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
+                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                StartLongNotePoint.Add(FirstLongModeSelected);
+                                FinishLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
+                                IsLongNoteMode = false;
+                                FirstLongModeSelected = null;
                             }
                         }
-                        if (isOK)
+                        else
                         {
                             for (int i = measure; i <= FirstLongModeSelected.Item1; i++)
                             {
                                 for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
                                 {
                                     if (i == measure && j == 0) j = time + 1;
+                                    if (j == ChartData[_SelectedChart.ID].Item2[i].Item4.Count()) break;
                                     if (i == FirstLongModeSelected.Item1 && j == FirstLongModeSelected.Item2) break;
-                                    else
+                                    if (DButtons[i][j][lane].Background.ToString() != "#FF000000")
                                     {
-                                        DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                        isOK = false;
                                     }
                                 }
                             }
-                            ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
-                            DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
-                            StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
-                            FinishLongNotePoint.Add(FirstLongModeSelected);
-                            IsLongNoteMode = false;
-                            FirstLongModeSelected = null;
+                            if (isOK)
+                            {
+                                for (int i = measure; i <= FirstLongModeSelected.Item1; i++)
+                                {
+                                    for (int j = 0; j < ChartData[_SelectedChart.ID].Item2[i].Item4.Count(); j++)
+                                    {
+                                        if (i == measure && j == 0) j = time + 1;
+                                        if (j == ChartData[_SelectedChart.ID].Item2[i].Item4.Count()) break;
+                                        if (i == FirstLongModeSelected.Item1 && j == FirstLongModeSelected.Item2) break;
+                                        else
+                                        {
+                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                        }
+                                    }
+                                }
+                                ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
+                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
+                                FinishLongNotePoint.Add(FirstLongModeSelected);
+                                IsLongNoteMode = false;
+                                FirstLongModeSelected = null;
+                            }
                         }
                     }
                 }
@@ -532,7 +539,7 @@ namespace BeatapChartMaker
                     default:
                         break;
                 }
-                ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = PenMode;
+                if(PenMode != 2) ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = PenMode;
             }
         }
 
@@ -722,7 +729,7 @@ namespace BeatapChartMaker
                     if (int.TryParse(values[l][1], out idummy)) if (idummy >= 0 && idummy <= 3) timeData.Add(idummy);
                     if (int.TryParse(values[l][2], out idummy)) if (idummy >= 0 && idummy <= 3) timeData.Add(idummy);
                     if (int.TryParse(values[l][3], out idummy)) if (idummy >= 0 && idummy <= 3) timeData.Add(idummy);
-                    if (int.TryParse(values[l][4].Replace(Environment.NewLine, ""), out idummy)) if (idummy >= 0 && idummy <= 4) timeData.Add(idummy);
+                    if (int.TryParse(values[l][4].Replace(Environment.NewLine, ""), out idummy)) if (idummy >= 0 && idummy <= 3) timeData.Add(idummy);
                     if (values[l].Count() >= 7)
                     {
                         String[] optionns = values[l][5].Split('+');
@@ -739,7 +746,12 @@ namespace BeatapChartMaker
                     measureData.Add(Tuple.Create<List<int>, List<Tuple<String, String>>>(timeData, timeoptions));
                     if (timeIndex == separate)
                     {
-                        chartData.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(measure_m, measure_d, separate, measureData));
+                        int m = measure_m;
+                        int d = measure_d;
+                        int s = separate;
+                        List<Tuple<List<int>, List<Tuple<String, String>>>> md = measureData;
+                        chartData.Add(Tuple.Create<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>(m,d,s,md));
+                        measureData = new List<Tuple<List<int>, List<Tuple<String, String>>>>();
                         measure_d = 0;
                         measure_m = 0;
                         separate = 0;
