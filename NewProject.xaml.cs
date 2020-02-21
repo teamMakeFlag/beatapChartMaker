@@ -66,7 +66,7 @@ namespace BeatapChartMaker
 
         private void StandardBPMTBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !new Regex("[0-9]").IsMatch(e.Text);
+            e.Handled = !new Regex("[0-9.]").IsMatch(e.Text);
         }
 
         private void CreateButton_Clicked(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace BeatapChartMaker
                 {
                     String path = WSP + WorkSpaceDirectoryName + "\\" + difs[j] + ".csv";
                     StreamWriter cfs = new StreamWriter(@path, false, System.Text.Encoding.Default);
-                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + "," + StandardBPM + ",0," + juds[j] + "\n");
+                    cfs.Write(difs[j] + "," + levs[j] + "," + ChartDesignerName + ",0," + StandardBPM + "," + juds[j] + "\n");
                     cfs.Write("START\n");
                     cfs.Write("END\n");
                     cfs.Close();

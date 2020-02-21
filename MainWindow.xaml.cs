@@ -39,18 +39,18 @@ namespace BeatapChartMaker
         private String ChartName = "";
         private String ChartJudge = "";
         private String ChartDesignerName = "";
-        private int ChartStandardBPM = 0;
+        private float ChartStandardBPM = 0;
         private int ChartLevel = 0;
-        private int ChartOffset = 0;
+        private float ChartOffset = 0;
         private List<String> ChartPaths = new List<String>();
         private List<String> ChartNames = new List<String>();
         private List<String> ChartJudges = new List<String>();
         private List<String> ChartDesigners = new List<String>();
         private List<List<Tuple<String, String>>> ChartsOptions = new List<List<Tuple<String, String>>>();
         private List<List<List<Button>>> DButtons = new List<List<List<Button>>>();
-        private List<int> ChartStandardBPMs = new List<int>();
+        private List<float> ChartStandardBPMs = new List<float>();
         private List<int> ChartLevels = new List<int>();
-        private List<int> ChartOffsets = new List<int>();
+        private List<float> ChartOffsets = new List<float>();
         private ChartsData _SelectedChart;
         private ChartsData SelectedChart;
         private Tuple<String, String> SelectedTimeOption;
@@ -629,7 +629,7 @@ namespace BeatapChartMaker
             if (_SelectedChart != null)
             {
                 StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
-                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset + "," + ChartJudge + "\n");
+                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartOffset.ToString() + "," + ChartStandardBPM.ToString() + "," + ChartJudge + "\n");
                 for(int i = 0; i < ChartsOptions[_SelectedChart.ID].Count(); i++)
                 {
                     cfs.Write(ChartsOptions[_SelectedChart.ID][i].Item1+","+ ChartsOptions[_SelectedChart.ID][i].Item2+"\n");
@@ -682,13 +682,13 @@ namespace BeatapChartMaker
             int l = 1;
             if (values[0].Count() < 6) return;
             if (!int.TryParse(values[0][1], out idummy)) return;
-            if (!int.TryParse(values[0][3], out idummy)) return;
-            if (!int.TryParse(values[0][4], out idummy)) return;
+            if (!float.TryParse(values[0][3], out fdummy)) return;
+            if (!float.TryParse(values[0][4], out fdummy)) return;
             ChartNames.Add(values[0][0]);
             ChartLevels.Add(int.Parse(values[0][1]));
             ChartDesigners.Add(values[0][2]);
-            ChartStandardBPMs.Add(int.Parse(values[0][3]));
-            ChartOffsets.Add(int.Parse(values[0][4]));
+            ChartOffsets.Add(float.Parse(values[0][3]));
+            ChartStandardBPMs.Add(float.Parse(values[0][4]));
             ChartJudges.Add(values[0][5].Replace(Environment.NewLine, ""));
             while (values[l][0].Replace(Environment.NewLine, "") != "START")
             {
@@ -915,9 +915,9 @@ namespace BeatapChartMaker
             ChartNames = new List<String>();
             ChartJudges = new List<String>();
             ChartDesigners = new List<String>();
-            ChartStandardBPMs = new List<int>();
+            ChartStandardBPMs = new List<float>();
             ChartLevels = new List<int>();
-            ChartOffsets = new List<int>();
+            ChartOffsets = new List<float>();
             ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<string, string>>>>>>>>();
             ChartsOptions = new List<List<Tuple<string, string>>>();
             cdlist.Clear();
@@ -1010,12 +1010,12 @@ namespace BeatapChartMaker
 
         private void ChartOffsetTBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !new Regex("[0-9]").IsMatch(e.Text);
+            e.Handled = !new Regex("[0-9.]").IsMatch(e.Text);
         }
 
         private void ChartStandardBPMTBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !new Regex("[0-9]").IsMatch(e.Text);
+            e.Handled = !new Regex("[0-9.]").IsMatch(e.Text);
         }
 
         private void denom_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -1082,7 +1082,7 @@ namespace BeatapChartMaker
         {
             if (ChartOffsetTBox.Text != "")
             {
-                ChartOffset = Convert.ToInt32(ChartOffsetTBox.Text.ToString());
+                ChartOffset = Convert.ToSingle(ChartOffsetTBox.Text.ToString());
             }
         }
 
@@ -1090,7 +1090,7 @@ namespace BeatapChartMaker
         {
             if (ChartStandardBPMTBox.Text != "")
             {
-                ChartStandardBPM = Convert.ToInt32(ChartStandardBPMTBox.Text.ToString());
+                ChartStandardBPM = Convert.ToSingle(ChartStandardBPMTBox.Text.ToString());
             }
         }
 
