@@ -61,6 +61,7 @@ namespace BeatapChartMaker
         public String FunctionValue = "";
         //      譜面       行数  小節       分子 分母 分割  拍 レーン ノーツ
         private List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>>();
+        private Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>> CopiedMeasure = null;
         readonly List<ChartsData> cdlist = new List<ChartsData>();
         readonly List<Tuple<String, String>> tolist = new List<Tuple<string, string>>();
         readonly List<Tuple<String, String>> colist = new List<Tuple<string, string>>();
@@ -377,15 +378,30 @@ namespace BeatapChartMaker
                 }
                 else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節をコピー")
                 {
-
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1)
+                    {
+                        CopiedMeasure = ChartData[_SelectedChart.ID].Item2[SelectedMeasureIndex];
+                    }
                 }
                 else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の前にコピーした小節を貼り付け")
                 {
-
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1 && CopiedMeasure != null)
+                    {
+                        int rc = CopiedMeasure.Item3;
+                        ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex, CopiedMeasure);
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + rc, ChartData[_SelectedChart.ID].Item2);
+                        DrawChartData();
+                    }
                 }
                 else if (ActionSelectComboBox.SelectedValue.ToString() == "選択中の小節の後ろにコピーした小節を貼り付け")
                 {
-
+                    if (_SelectedChart != null && SelectedMeasureIndex != -1 && CopiedMeasure != null)
+                    {
+                        int rc = CopiedMeasure.Item3;
+                        ChartData[_SelectedChart.ID].Item2.Insert(SelectedMeasureIndex + 1, CopiedMeasure);
+                        ChartData[_SelectedChart.ID] = Tuple.Create<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>(ChartData[_SelectedChart.ID].Item1 + rc, ChartData[_SelectedChart.ID].Item2);
+                        DrawChartData();
+                    }
                 }
             }
         }
