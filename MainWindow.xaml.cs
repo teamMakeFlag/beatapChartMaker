@@ -429,6 +429,7 @@ namespace BeatapChartMaker
                                         }
                                     }
                                 }
+                                ChartData[_SelectedChart.ID].Item2[FirstLongModeSelected.Item1].Item4[FirstLongModeSelected.Item2].Item1[FirstLongModeSelected.Item3] = 2;
                                 ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
                                 DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
                                 StartLongNotePoint.Add(FirstLongModeSelected);
@@ -467,6 +468,7 @@ namespace BeatapChartMaker
                                         }
                                     }
                                 }
+                                ChartData[_SelectedChart.ID].Item2[FirstLongModeSelected.Item1].Item4[FirstLongModeSelected.Item2].Item1[FirstLongModeSelected.Item3] = 2;
                                 ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
                                 DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
                                 StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
