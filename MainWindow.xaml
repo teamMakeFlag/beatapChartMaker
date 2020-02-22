@@ -102,15 +102,15 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0">楽曲タイトル</TextBlock>
-                        <TextBox Name="SongNameTBox" Grid.ColumnSpan="2" Width="195" TextChanged="SongNameTBox_Changed"></TextBox>
+                        <TextBox Name="SongNameTBox" IsReadOnly="True" Grid.ColumnSpan="2" Width="195" TextChanged="SongNameTBox_Changed"></TextBox>
                         <TextBlock Grid.Row="1">楽曲アーティスト</TextBlock>
-                        <TextBox Name="ArtistNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ArtistNameTBox_Changed"/>
+                        <TextBox Name="ArtistNameTBox" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ArtistNameTBox_Changed"/>
                         <TextBlock Grid.Row="2">楽曲ファイルパス</TextBlock>
-                        <TextBox Name="AudioFilePathTBox" Grid.Row="2" Width="145" TextChanged="AudioFilePathTBox_Changed"/>
-                        <Button Name="AudioRefButton" Width="45" Grid.Row="2" Grid.Column="2" Click="AudioRefButton_Clicked">参照</Button>
+                        <TextBox Name="AudioFilePathTBox" IsReadOnly="True" Grid.Row="2" Width="145" TextChanged="AudioFilePathTBox_Changed"/>
+                        <Button Name="AudioRefButton" IsEnabled="False" Width="45" Grid.Row="2" Grid.Column="2" Click="AudioRefButton_Clicked">参照</Button>
                         <TextBlock Grid.Row="3">画像ファイルパス</TextBlock>
-                        <TextBox Name="ThumbFilePathTBox" Grid.Row="3" Width="145" TextChanged="ThumbFilePathTBox_Changed"/>
-                        <Button Name="ThumbRefButton" Grid.Row="3" Grid.Column="2" Width="45" Click="ThumbRefButton_Clicked">参照</Button>
+                        <TextBox Name="ThumbFilePathTBox" IsReadOnly="True" Grid.Row="3" Width="145" TextChanged="ThumbFilePathTBox_Changed"/>
+                        <Button Name="ThumbRefButton" IsEnabled="False" Grid.Row="3" Grid.Column="2" Width="45" Click="ThumbRefButton_Clicked">参照</Button>
                         <Button Name="SaveMusicDataButton" Grid.Row="4"  Grid.ColumnSpan="3" Width="290" Click="SaveMusicDataButton_Click">保存</Button>
                     </Grid>
                 </ScrollViewer>
@@ -135,20 +135,20 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0">譜面名</TextBlock>
-                        <TextBox Name="ChartNameTBox" Grid.ColumnSpan="2" Width="195" TextChanged="ChartNameTBox_Changed"/>
+                        <TextBox Name="ChartNameTBox" IsReadOnly="True" Grid.ColumnSpan="2" Width="195" TextChanged="ChartNameTBox_Changed"/>
                         <TextBlock Grid.Row="1">譜面作成者</TextBlock>
-                        <TextBox Name="ChartDesignerNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
+                        <TextBox Name="ChartDesignerNameTBox" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
                         <TextBlock Grid.Row="2">判定</TextBlock>
-                        <ComboBox Name="ChartJudgeComboBox" Grid.Row="2" Grid.ColumnSpan="2" Width="195" Margin="1,2,2,3" Grid.Column="1"/>
+                        <ComboBox Name="ChartJudgeComboBox" IsEnabled="False" Grid.Row="2" Grid.ColumnSpan="2" Width="195" Margin="1,2,2,3" Grid.Column="1"/>
                         <TextBlock Grid.Row="3">レベル</TextBlock>
-                        <TextBox Name="ChartLevelTBox" Grid.Row="3" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartLevelTBox_PreviewTextInput" TextChanged="ChartLevelTBox_Changed"/>
+                        <TextBox Name="ChartLevelTBox" IsReadOnly="True" Grid.Row="3" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartLevelTBox_PreviewTextInput" TextChanged="ChartLevelTBox_Changed"/>
                         <TextBlock Grid.Row="4">基本BPM</TextBlock>
-                        <TextBox Name="ChartStandardBPMTBox" Grid.Row="4" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" TextChanged="ChartStandardBPMTBox_Changed"/>
+                        <TextBox Name="ChartStandardBPMTBox" IsReadOnly="True" Grid.Row="4" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartStandardBPMTBox_PreviewTextInput" TextChanged="ChartStandardBPMTBox_Changed"/>
                         <TextBlock Grid.Row="5">オフセット値</TextBlock>
-                        <TextBox Name="ChartOffsetTBox" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" TextChanged="ChartOffsetTBox_Changed"/>
+                        <TextBox Name="ChartOffsetTBox" IsReadOnly="True" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartOffsetTBox_PreviewTextInput" TextChanged="ChartOffsetTBox_Changed"/>
                         <DataGrid Name="ChartOptionsGrid" Grid.Row="6" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="ChartOptionsGrid_SelectedCellsChanged"/>
-                        <ComboBox Name="ChartOptionsComboBox" Grid.Row="7" Grid.ColumnSpan="2" Width="195"/>
-                        <TextBox Name="ChartOptionsValueTBox" Grid.Row="7" Grid.Column="2" Width="95" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput"/>
+                        <ComboBox Name="ChartOptionsComboBox" IsEnabled="False" Grid.Row="7" Grid.ColumnSpan="2" Width="195"/>
+                        <TextBox Name="ChartOptionsValueTBox" IsReadOnly="True" Grid.Row="7" Grid.Column="2" Width="95" PreviewTextInput="ChartOptionValueTBox_PreviewTextInput"/>
                         <Button Name="AddChartOptionButton" Grid.Row="8" Grid.Column="0" Width="95" Click="AddChartOptionButton_Click">追加</Button>
                         <Button Name="DeleteChartOptionButton" Grid.Row="8" Grid.Column="1" Width="95" Click="DeleteChartOptionButton_Click">削除</Button>
                         <Button Name="SaveChartOptionsButton" Grid.Row="8" Grid.Column="2" Width="95" Click="SaveChartOptionsButton_Click">保存</Button>
@@ -186,18 +186,18 @@
                         <TextBox Name="sep_R" Grid.Row="2" Grid.ColumnSpan="3" Width="195" IsEnabled="False" IsReadOnly="True"/>
                         <GridSplitter Grid.Row="3" Grid.ColumnSpan="3" Width="295" Background="Black" IsEnabled="False"/>
                         <TextBlock Grid.Row="4">拍子 (左/右)</TextBlock>
-                        <TextBox Name="denom" Grid.Row="4" Width="95" PreviewTextInput="denom_PreviewTextInput"/>
-                        <TextBox Name="mole" Grid.Row="4" Grid.Column="2" Width="95" PreviewTextInput="mole_PreviewTextInput"/>
+                        <TextBox Name="denom" IsReadOnly="True" Grid.Row="4" Width="95" PreviewTextInput="denom_PreviewTextInput"/>
+                        <TextBox Name="mole" IsReadOnly="True" Grid.Row="4" Grid.Column="2" Width="95" PreviewTextInput="mole_PreviewTextInput"/>
                         <TextBlock Grid.Row="5">分割数</TextBlock>
-                        <TextBox Name="sep" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="sep_PreviewTextInput"/>
-                        <ComboBox Name="ActionSelectComboBox" Grid.Row="6" Grid.ColumnSpan="2" Width="195"/>
+                        <TextBox Name="sep" IsReadOnly="True" Grid.Row="5" Grid.ColumnSpan="2" Width="195" PreviewTextInput="sep_PreviewTextInput"/>
+                        <ComboBox Name="ActionSelectComboBox" IsEnabled="False" Grid.Row="6" Grid.ColumnSpan="2" Width="195"/>
                         <Button Name="DoActionButton" Grid.Row="6" Grid.Column="2" Width="95" Click="DoActionButton_Click">実行</Button>
                         <GridSplitter Grid.Row="7" Grid.ColumnSpan="3" Width="295" Height="auto" Background="Black" IsEnabled="False"/>
                         <TextBlock Grid.Row="8">拍</TextBlock>
                         <TextBox Name="SelectedTimeTBox" Grid.Row="8" Grid.ColumnSpan="2" Width="195" IsReadOnly="True" IsEnabled="False"/>
                         <DataGrid Name="TimeOptionsGrid" Grid.Row="9" Grid.ColumnSpan="3" Height="50" Width="295" SelectedCellsChanged="TimeOptionsGrid_SelectedCellsChanged"/>
-                        <ComboBox Name="TimeOptionsComboBox" Grid.Row="10" Grid.ColumnSpan="2" Width="195"/>
-                        <TextBox Name="TimeOptionsValueTBox" Grid.Row="10" Grid.Column="2" Width="95" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput"/>
+                        <ComboBox Name="TimeOptionsComboBox" IsEnabled="False" Grid.Row="10" Grid.ColumnSpan="2" Width="195"/>
+                        <TextBox Name="TimeOptionsValueTBox" IsReadOnly="True" Grid.Row="10" Grid.Column="2" Width="95" PreviewTextInput="TimeOptionsValueTBox_PreviewTextInput"/>
                         <Button Name="AddOptionButton" Grid.Row="11" Width="95" Click="AddOptionButton_Click">追加</Button>
                         <Button Name="DeleteOptionButton" Grid.Row="11" Grid.Column="1" Width="95" Click="DeleteOptionButton_Click">削除</Button>
                         <Button Name="SaveTimeOptions" Grid.Row="11" Grid.Column="2" Width="95" Click="SaveTimeOptions_Click">保存</Button>

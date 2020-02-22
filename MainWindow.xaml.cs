@@ -71,6 +71,7 @@ namespace BeatapChartMaker
         private int SelectedMeasureIndex = -1;
         private int PenMode = -1;
         private bool IsLongNoteMode = false;
+        private bool IsProjectLoaded = false;
         private Tuple<int, int, int> FirstLongModeSelected = null;
 
         public MainWindow()
@@ -179,7 +180,7 @@ namespace BeatapChartMaker
 
         private void SelectChartButton_Clicked(object sender, RoutedEventArgs e)
         {
-            if (SelectedChart != null)
+            if (IsProjectLoaded && SelectedChart != null)
             {
                 _SelectedChart = SelectedChart;
                 EdittingID = _SelectedChart.ID;
@@ -200,7 +201,7 @@ namespace BeatapChartMaker
 
         private void DeleteChartButton_Clicked(object sender, RoutedEventArgs e)
         {
-            if(SelectedChart != null && Forms.DialogResult.Yes == Forms.MessageBox.Show("選択した譜面\n「"+ChartNames[SelectedChart.ID]+"」を削除してもいいですか？", "確認", Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Exclamation, Forms.MessageBoxDefaultButton.Button2))
+            if(IsProjectLoaded && SelectedChart != null && Forms.DialogResult.Yes == Forms.MessageBox.Show("選択した譜面\n「"+ChartNames[SelectedChart.ID]+"」を削除してもいいですか？", "確認", Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Exclamation, Forms.MessageBoxDefaultButton.Button2))
             {
                 if (EdittingID == SelectedChart.ID)
                 {
@@ -244,10 +245,13 @@ namespace BeatapChartMaker
         }
         private void CreateChartButton_Clicked(object sender, RoutedEventArgs e)
         {
-            NewChartWindow ncw = new NewChartWindow();
-            ncw.Owner = this;
-            ncw.Show();
-            UpdateDataList();
+            if (IsProjectLoaded)
+            {
+                NewChartWindow ncw = new NewChartWindow();
+                ncw.Owner = this;
+                ncw.Show();
+                UpdateDataList();
+            }
         }
 
         private void MeasureButton_Clicked(object sender,String d, String m, String s, int index)
@@ -582,10 +586,13 @@ namespace BeatapChartMaker
 
         private void SaveMusicDataButton_Click(object sender, RoutedEventArgs e)
         {
-            StreamWriter fs = new StreamWriter(@DefaultWorkSpacePath + "\\music.txt", false, System.Text.Encoding.Default);
-            fs.Write(SongName + "\n");
-            fs.Write(ArtistName);
-            fs.Close();
+            if (IsProjectLoaded)
+            {
+                StreamWriter fs = new StreamWriter(@DefaultWorkSpacePath + "\\music.txt", false, System.Text.Encoding.Default);
+                fs.Write(SongName + "\n");
+                fs.Write(ArtistName);
+                fs.Close();
+            }
         }
 
         private void FunctionButton_Click(object sender, int measure, int time)
@@ -1066,6 +1073,27 @@ namespace BeatapChartMaker
             ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
             rwIni.WriteString("Path", "DefaultWorkSpace", DefaultWorkSpacePath);
             this.Title = "Beatap譜面エディタ - " + ProjectPath.Substring(ProjectPath.LastIndexOf('\\')+1, ProjectPath.Length - ProjectPath.LastIndexOf('\\') - 1);
+            IsProjectLoaded = true;
+            SongNameTBox.IsReadOnly = false;
+            ArtistNameTBox.IsReadOnly = false;
+            AudioFilePathTBox.IsReadOnly = false;
+            AudioRefButton.IsEnabled = true;
+            ThumbFilePathTBox.IsReadOnly = false;
+            ThumbRefButton.IsEnabled = true;
+            ChartNameTBox.IsReadOnly = false;
+            ChartDesignerNameTBox.IsReadOnly = false;
+            ChartJudgeComboBox.IsEnabled = true;
+            ChartLevelTBox.IsReadOnly = false;
+            ChartStandardBPMTBox.IsReadOnly = false;
+            ChartOffsetTBox.IsReadOnly = false;
+            ChartOptionsComboBox.IsEnabled = true;
+            ChartOptionsValueTBox.IsReadOnly = false;
+            denom.IsReadOnly = false;
+            mole.IsReadOnly = false;
+            sep.IsReadOnly = false;
+            ActionSelectComboBox.IsEnabled = true;
+            TimeOptionsComboBox.IsEnabled = true;
+            TimeOptionsValueTBox.IsReadOnly = false;
         }
 
         private void ChartLevelTBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
