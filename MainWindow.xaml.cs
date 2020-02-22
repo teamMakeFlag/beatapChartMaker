@@ -51,7 +51,7 @@ namespace BeatapChartMaker
         private List<float> ChartStandardBPMs = new List<float>();
         private List<int> ChartLevels = new List<int>();
         private List<float> ChartOffsets = new List<float>();
-        private ChartsData _SelectedChart;
+        public ChartsData _SelectedChart;
         private ChartsData SelectedChart;
         private Tuple<String, String> SelectedTimeOption;
         private Tuple<String, String> SelectedChartOption;
@@ -59,6 +59,7 @@ namespace BeatapChartMaker
         public String DefaultWorkSpacePath = "";
         public String FunctionMode = "";
         public String FunctionValue = "";
+        public List<Tuple<int,int,int>> ColorBrush = new List<Tuple<int,int,int>>();
         //      譜面       行数  小節       分子 分母 分割  拍 レーン ノーツ
         private List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>> ChartData = new List<Tuple<int, List<Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>>>>>();
         private Tuple<int, int, int, List<Tuple<List<int>, List<Tuple<String, String>>>>> CopiedMeasure = null;
@@ -91,8 +92,12 @@ namespace BeatapChartMaker
             ActionSelectComboBox.Items.Add("選択中の小節をコピー");
             ActionSelectComboBox.Items.Add("選択中の小節の前にコピーした小節を貼り付け");
             ActionSelectComboBox.Items.Add("選択中の小節の後ろにコピーした小節を貼り付け");
+            ColorBrush.Add(Tuple.Create<int,int,int>(0, 54, 255));
+            ColorBrush.Add(Tuple.Create<int, int, int>(0, 210, 131));
+            ColorBrush.Add(Tuple.Create<int,int,int>(255, 13, 13));
+            ColorBrush.Add(Tuple.Create<int, int, int>(0, 170, 91));
             GetConfigData();
-            if (DefaultWorkSpacePath != "") OpenProject(DefaultWorkSpacePath);
+            if (DefaultWorkSpacePath != "" && Directory.Exists(DefaultWorkSpacePath)) OpenProject(DefaultWorkSpacePath);
         }
 
         private void UpdateDataList()
@@ -441,13 +446,13 @@ namespace BeatapChartMaker
                                         if (i == measure && j == time) break;
                                         else
                                         {
-                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[3].Item1), Convert.ToByte(ColorBrush[3].Item2), Convert.ToByte(ColorBrush[3].Item3)));
                                         }
                                     }
                                 }
                                 ChartData[_SelectedChart.ID].Item2[FirstLongModeSelected.Item1].Item4[FirstLongModeSelected.Item2].Item1[FirstLongModeSelected.Item3] = 2;
                                 ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
-                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[1].Item1), Convert.ToByte(ColorBrush[1].Item2), Convert.ToByte(ColorBrush[1].Item3)));
                                 StartLongNotePoint.Add(FirstLongModeSelected);
                                 FinishLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
                                 IsLongNoteMode = false;
@@ -480,13 +485,13 @@ namespace BeatapChartMaker
                                         if (i == FirstLongModeSelected.Item1 && j == FirstLongModeSelected.Item2) break;
                                         else
                                         {
-                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 170, 91));
+                                            DButtons[i][j][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[3].Item1), Convert.ToByte(ColorBrush[3].Item2), Convert.ToByte(ColorBrush[3].Item3)));
                                         }
                                     }
                                 }
                                 ChartData[_SelectedChart.ID].Item2[FirstLongModeSelected.Item1].Item4[FirstLongModeSelected.Item2].Item1[FirstLongModeSelected.Item3] = 2;
                                 ChartData[_SelectedChart.ID].Item2[measure].Item4[time].Item1[lane] = 2;
-                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                DButtons[measure][time][lane].Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[1].Item1), Convert.ToByte(ColorBrush[1].Item2), Convert.ToByte(ColorBrush[1].Item3)));
                                 StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
                                 FinishLongNotePoint.Add(FirstLongModeSelected);
                                 IsLongNoteMode = false;
@@ -544,15 +549,15 @@ namespace BeatapChartMaker
                         }
                         break;
                     case 1:
-                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 54, 255));
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[0].Item1), Convert.ToByte(ColorBrush[0].Item2), Convert.ToByte(ColorBrush[0].Item3)));
                         break;
                     case 2:
-                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[1].Item1), Convert.ToByte(ColorBrush[1].Item2), Convert.ToByte(ColorBrush[1].Item3)));
                         IsLongNoteMode = true;
                         FirstLongModeSelected = Tuple.Create<int, int, int>(measure, time,lane);
                         break;
                     case 3:
-                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 13, 13));
+                        ((Button)sender).Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[2].Item1), Convert.ToByte(ColorBrush[2].Item2), Convert.ToByte(ColorBrush[2].Item3)));
                         break;
                     default:
                         break;
@@ -799,7 +804,7 @@ namespace BeatapChartMaker
             }
             return false;
         }
-        private void DrawChartData()
+        public void DrawChartData()
         {
             ChartDataGrid.Children.Clear();
             DButtons.Clear();
@@ -849,13 +854,13 @@ namespace BeatapChartMaker
                                 note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0));
                                 break;
                             case 1:
-                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 54, 255));
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[0].Item1), Convert.ToByte(ColorBrush[0].Item2), Convert.ToByte(ColorBrush[0].Item3)));
                                 break;
                             case 2:
-                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 210, 131));
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[1].Item1), Convert.ToByte(ColorBrush[1].Item2), Convert.ToByte(ColorBrush[1].Item3)));
                                 break;
                             case 3:
-                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 13, 13));
+                                note.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(Convert.ToByte(ColorBrush[2].Item1), Convert.ToByte(ColorBrush[2].Item2), Convert.ToByte(ColorBrush[2].Item3)));
                                 break;
                             default:
                                 break;
@@ -878,6 +883,32 @@ namespace BeatapChartMaker
                     count++;
                 }
                 DButtons.Add(mbuttons);
+            }
+            Tuple<int, int> startpos = null;
+            for(int lane = 0; lane < 5; lane++)
+            {
+                for(int measure = 0; measure < DButtons.Count(); measure++)
+                {
+                    for(int time = 0; time < DButtons[measure].Count(); time++)
+                    {
+                        if(DButtons[measure][time][lane].Background.ToString() == new SolidColorBrush(Color.FromRgb(Convert.ToByte(ColorBrush[1].Item1), Convert.ToByte(ColorBrush[1].Item2), Convert.ToByte(ColorBrush[1].Item3))).ToString())
+                        {
+                            if (startpos == null)
+                            {
+                                startpos = Tuple.Create<int, int>(measure, time);
+                                StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
+                            }
+                            else {
+                                startpos = null;
+                                FinishLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
+                            }
+                        }
+                        else if(startpos != null)
+                        {
+                            DButtons[measure][time][lane].Background = new SolidColorBrush(Color.FromRgb(Convert.ToByte(ColorBrush[3].Item1), Convert.ToByte(ColorBrush[3].Item2), Convert.ToByte(ColorBrush[3].Item3)));
+                        }
+                    }
+                }
             }
         }
         private void ClearAllVariable()
@@ -1185,7 +1216,10 @@ namespace BeatapChartMaker
 
         private void ConfigChartButton_Click(object sender, RoutedEventArgs e)
         {
-            //
+            ConfigWindow cw = new ConfigWindow();
+            cw.Owner = this;
+            cw.SetValues();
+            cw.Show();
         }
     }
 }

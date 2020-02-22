@@ -1,0 +1,49 @@
+﻿<Window x:Class="BeatapChartMaker.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BeatapChartMaker"
+        mc:Ignorable="d"
+        Title="ConfigWindow" Height="369.63" Width="506.439" ResizeMode="NoResize">
+    <Grid>
+        <TextBox Name="DWFTBox" HorizontalAlignment="Left" Height="23" Margin="125,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="287"/>
+        <Button Name="DWFRefButton" Click="DWFRefButton_Click" Content="参照" HorizontalAlignment="Left" Margin="417,11,0,0" VerticalAlignment="Top" Width="71" Height="25"/>
+        <Label Content="起動時に開くフォルダ" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="110"/>
+        <Slider Name="SingleRSlider" ValueChanged="SingleRSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,40,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="シングルノートの色" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+        <Slider Name="SingleGSlider" ValueChanged="SingleGSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,69,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Slider Name="SingleBSlider" ValueChanged="SingleBSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,98,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="赤" HorizontalAlignment="Left" Margin="125,36,0,0" VerticalAlignment="Top"/>
+        <Label Content="緑" HorizontalAlignment="Left" Margin="125,65,0,0" VerticalAlignment="Top"/>
+        <Label Content="青" HorizontalAlignment="Left" Margin="125,94,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.553,0.231"/>
+        <Label Name="SingleSampleColor" Content="　" HorizontalAlignment="Left" Margin="17,65,0,0" VerticalAlignment="Top"/>
+        <Label Name="SingleRValue" Content="255" HorizontalAlignment="Left" Margin="454,36,0,0" VerticalAlignment="Top"/>
+        <Label Name="SingleGValue" Content="255" HorizontalAlignment="Left" Margin="454,65,0,0" VerticalAlignment="Top"/>
+        <Label Name="SingleBValue" Content="255" HorizontalAlignment="Left" Margin="454,94,0,0" VerticalAlignment="Top"/>
+        <Slider Name="LongRSlider" ValueChanged="LongRSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,131,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="ロングノートの色" HorizontalAlignment="Left" Margin="10,127,0,0" VerticalAlignment="Top"/>
+        <Slider Name="LongGSlider" ValueChanged="LongGSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,160,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Slider Name="LongBSlider" ValueChanged="LongBSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,189,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="赤" HorizontalAlignment="Left" Margin="125,127,0,0" VerticalAlignment="Top"/>
+        <Label Content="緑" HorizontalAlignment="Left" Margin="125,156,0,0" VerticalAlignment="Top"/>
+        <Label Content="青" HorizontalAlignment="Left" Margin="125,185,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.553,0.231"/>
+        <Label Name="LongSampleColor" Content="　" HorizontalAlignment="Left" Margin="17,156,0,0" VerticalAlignment="Top"/>
+        <Label Name="LongRValue" Content="255" HorizontalAlignment="Left" Margin="454,127,0,0" VerticalAlignment="Top"/>
+        <Label Name="LongGValue" Content="255" HorizontalAlignment="Left" Margin="454,156,0,0" VerticalAlignment="Top"/>
+        <Label Name="LongBValue" Content="255" HorizontalAlignment="Left" Margin="454,185,0,0" VerticalAlignment="Top"/>
+        <Slider Name="DoubleRSlider" ValueChanged="DoubleRSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,224,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="ダブルノートの色" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
+        <Slider Name="DoubleGSlider" ValueChanged="DoubleGSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,253,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Slider Name="DoubleBSlider" ValueChanged="DoubleBSlider_ValueChanged" HorizontalAlignment="Left" Margin="168,282,0,0" VerticalAlignment="Top" Width="281" Minimum="0" Maximum="255" LargeChange="4" SmallChange="1"/>
+        <Label Content="赤" HorizontalAlignment="Left" Margin="125,220,0,0" VerticalAlignment="Top"/>
+        <Label Content="緑" HorizontalAlignment="Left" Margin="125,249,0,0" VerticalAlignment="Top"/>
+        <Label Content="青" HorizontalAlignment="Left" Margin="125,278,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.553,0.231"/>
+        <Label Name="DoubleSampleColor" Content="　" HorizontalAlignment="Left" Margin="17,249,0,0" VerticalAlignment="Top"/>
+        <Label Name="DoubleRValue" Content="255" HorizontalAlignment="Left" Margin="454,220,0,0" VerticalAlignment="Top"/>
+        <Label Name="DoubleGValue" Content="255" HorizontalAlignment="Left" Margin="454,249,0,0" VerticalAlignment="Top"/>
+        <Label Name="DoubleBValue" Content="255" HorizontalAlignment="Left" Margin="454,278,0,0" VerticalAlignment="Top"/>
+        <Button Name="SaveButton" Click="SaveButton_Click" Content="保存" HorizontalAlignment="Left" Margin="417,309,0,0" VerticalAlignment="Top" Width="71"/>
+        <Label x:Name="LongSampleMidColor" Content="　" HorizontalAlignment="Left" Margin="17,185,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
