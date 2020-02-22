@@ -59,6 +59,8 @@ namespace BeatapChartMaker
                 this.Topmost = false;
                 this.Owner.Activate();
                 ((MainWindow)this.Owner).LoadChart(((MainWindow)this.Owner).DefaultWorkSpacePath + "\\" + ChartNameTBox.Text + ".csv");
+                ((MainWindow)this.Owner).ChartPaths.Add(((MainWindow)this.Owner).DefaultWorkSpacePath + "\\" + ChartNameTBox.Text + ".csv");
+                ((MainWindow)this.Owner).UpdateDataList();
                 this.Close();
             }
             else

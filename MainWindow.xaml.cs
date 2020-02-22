@@ -37,12 +37,11 @@ namespace BeatapChartMaker
         private String ThumbFilePath = "";
         private String SavedThumbFilePath = "";
         private String ChartName = "";
-        private String ChartJudge = "";
         private String ChartDesignerName = "";
         private float ChartStandardBPM = 0;
         private int ChartLevel = 0;
         private float ChartOffset = 0;
-        private List<String> ChartPaths = new List<String>();
+        public List<String> ChartPaths = new List<String>();
         private List<String> ChartNames = new List<String>();
         private List<String> ChartJudges = new List<String>();
         private List<String> ChartDesigners = new List<String>();
@@ -115,7 +114,7 @@ namespace BeatapChartMaker
             }
         }
 
-        private void UpdateDataList()
+        public void UpdateDataList()
         {
             chartListGrid.ItemsSource = new ReadOnlyCollection<ChartsData>(cdlist);
         }
@@ -219,7 +218,6 @@ namespace BeatapChartMaker
                 {
                     ChartDataGrid.Children.Clear();
                     ChartName = "";
-                    ChartJudge = "";
                     ChartDesignerName = "";
                     ChartStandardBPM = 0;
                     ChartLevel = 0;
@@ -262,7 +260,6 @@ namespace BeatapChartMaker
                 NewChartWindow ncw = new NewChartWindow();
                 ncw.Owner = this;
                 ncw.Show();
-                UpdateDataList();
             }
         }
 
@@ -950,7 +947,7 @@ namespace BeatapChartMaker
                             }
                             else
                             {
-                                MessageBox.Show("第" + (startpos.Item1 + 1).ToString() + "小節の第" + (startpos.Item2 + 1).ToString() + "拍の" + (lane + 1).ToString() + "にロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
+                                MessageBox.Show("第" + (startpos.Item1 + 1).ToString() + "小節の第" + (startpos.Item2 + 1).ToString() + "拍の" + (lane + 1).ToString() + "レーンにロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
                                 startpos = null;
                             }
                         }
@@ -958,7 +955,7 @@ namespace BeatapChartMaker
                 }
                 if(startpos != null)
                 {
-                    MessageBox.Show("第" + (startpos.Item1+1).ToString() + "小節の第" + (startpos.Item2+1).ToString() + "拍の" + (lane+1).ToString() + "にロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
+                    MessageBox.Show("第" + (startpos.Item1+1).ToString() + "小節の第" + (startpos.Item2+1).ToString() + "拍の" + (lane+1).ToString() + "レーンにロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
                 }
                 startpos = null;
             }
@@ -970,7 +967,6 @@ namespace BeatapChartMaker
             AudioFilePath = "";
             ThumbFilePath = "";
             ChartName = "";
-            ChartJudge = "";
             ChartDesignerName = "";
             ChartStandardBPM = 0;
             ChartLevel = 0;
