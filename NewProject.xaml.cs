@@ -74,14 +74,24 @@ namespace BeatapChartMaker
             string[] difs = ChartDifficulities.Split(',');
             string[] juds = ChartJudges.Split(',');
             string[] levs = ChartLevels.Split(',');
-            if (difs.Length == juds.Length && levs.Length == difs.Length && WorkSpaceDirectoryName != "" && SongName != "" && ArtistName != "" && ThumbFilePath !="" && AudioFilePath != "" && ChartDesignerName != "" && ChartDifficulities != "" && ChartLevels != "" && StandardBPM != "")
+            bool isoj = true;
+            for(int i = 0; i < juds.Count(); i++)
+            {
+                if(juds[i]!="easy"&& juds[i] != "normal"&&juds[i] != "hard"&&juds[i] != "gambol")
+                {
+                    isoj = false;
+                    MessageBox.Show("判定はeasy,normal,hard,gambolのみ使用できます", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+                }
+            }
+            if (isoj && difs.Length == juds.Length && levs.Length == difs.Length && WorkSpaceDirectoryName != "" && SongName != "" && ArtistName != ""  && AudioFilePath != "" && ChartDesignerName != "" && ChartDifficulities != "" && ChartLevels != "" && StandardBPM != "")
             {
                 Directory.CreateDirectory(WSP + WorkSpaceDirectoryName);
                 StreamWriter fs = new StreamWriter(@WSP + WorkSpaceDirectoryName + "\\music.txt", false, System.Text.Encoding.Default);
                 fs.Write(SongName + "\n");
                 fs.Write(ArtistName);
                 fs.Close();
-                if(ThumbFilePath!="None")File.Copy(@ThumbFilePath, @WSP + WorkSpaceDirectoryName + "\\thumb" + ThumbFilePath.Substring(ThumbFilePath.LastIndexOf(".")));
+                if(ThumbFilePath!="")File.Copy(@ThumbFilePath, @WSP + WorkSpaceDirectoryName + "\\thumb" + ThumbFilePath.Substring(ThumbFilePath.LastIndexOf(".")));
                 File.Copy(@AudioFilePath, @WSP + WorkSpaceDirectoryName + "\\music" + AudioFilePath.Substring(AudioFilePath.LastIndexOf(".")));
                 for (int j = 0; j < difs.Length; j++)
                 {
@@ -167,7 +177,7 @@ namespace BeatapChartMaker
 
         private void ThumbFilePathTBox_Changed(object sender, TextChangedEventArgs e)
         {
-            if (!File.Exists(ThumbFilePathTBox.Text.ToString())) { TFPErrorLabel.Content = "ファイルが存在しません!(「None」と入力すると使用しません)"; ThumbFilePath = ""; }
+            if (!File.Exists(ThumbFilePathTBox.Text.ToString()) && ThumbFilePathTBox.Text.ToString()!="") { TFPErrorLabel.Content = "ファイルが存在しません!(何も入力しないと使用しません)"; ThumbFilePath = ""; }
             else { TFPErrorLabel.Content = ""; ThumbFilePath = ThumbFilePathTBox.Text.ToString(); }
         }
 

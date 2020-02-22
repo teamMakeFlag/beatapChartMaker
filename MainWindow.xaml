@@ -139,7 +139,7 @@
                         <TextBlock Grid.Row="1">譜面作成者</TextBlock>
                         <TextBox Name="ChartDesignerNameTBox" Grid.Row="1" Grid.ColumnSpan="2" Width="195" TextChanged="ChartDesignerNameTBox_Changed"/>
                         <TextBlock Grid.Row="2">判定</TextBlock>
-                        <TextBox Name="ChartJudgeTBox" Grid.Row="2" Grid.ColumnSpan="2" Width="195" TextChanged="ChartJudgeTBox_Changed"/>
+                        <ComboBox Name="ChartJudgeComboBox" Grid.Row="2" Grid.ColumnSpan="2" Width="195" Margin="1,2,2,3" Grid.Column="1"/>
                         <TextBlock Grid.Row="3">レベル</TextBlock>
                         <TextBox Name="ChartLevelTBox" Grid.Row="3" Grid.ColumnSpan="2" Width="195" PreviewTextInput="ChartLevelTBox_PreviewTextInput" TextChanged="ChartLevelTBox_Changed"/>
                         <TextBlock Grid.Row="4">基本BPM</TextBlock>
@@ -205,7 +205,7 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        
+
         <!-- (1-2,1) エディタ ChartEditor ScrollViewer(Grid) -->
         <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="0,23,0,0">
             <Grid Name="ChartDataGrid" ShowGridLines="False" Background="#DDDDDD" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
@@ -220,7 +220,7 @@
                 </Grid.ColumnDefinitions>
             </Grid>
         </ScrollViewer>
-        
+
         <!-- (2,0) 譜面リスト ChartList Grid -->
         <Grid Grid.Row="2" Grid.Column="0" Width="auto">
             <Grid.RowDefinitions>

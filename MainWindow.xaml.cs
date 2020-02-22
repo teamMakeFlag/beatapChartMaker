@@ -76,6 +76,10 @@ namespace BeatapChartMaker
         public MainWindow()
         {
             InitializeComponent();
+            ChartJudgeComboBox.Items.Add("easy");
+            ChartJudgeComboBox.Items.Add("normal");
+            ChartJudgeComboBox.Items.Add("hard");
+            ChartJudgeComboBox.Items.Add("gambol");
             ChartOptionsComboBox.Items.Add("TOTAL");
             ChartOptionsComboBox.Items.Add("SCROLL");
             ChartOptionsComboBox.Items.Add("HOSEI_RATE");
@@ -98,6 +102,16 @@ namespace BeatapChartMaker
             ColorBrush.Add(Tuple.Create<int, int, int>(0, 170, 91));
             GetConfigData();
             if (DefaultWorkSpacePath != "" && Directory.Exists(DefaultWorkSpacePath)) OpenProject(DefaultWorkSpacePath);
+            else
+            {
+                if (!File.Exists(System.IO.Path.GetFullPath("config.ini")))
+                {
+                    StreamWriter cfs = new StreamWriter(@System.IO.Path.GetFullPath("config.ini"), false, System.Text.Encoding.Default);
+                    cfs.Close();
+                }   
+                ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
+                rwIni.WriteString("Path", "DefaultWorkSpace", "");
+            }
         }
 
         private void UpdateDataList()
@@ -171,7 +185,7 @@ namespace BeatapChartMaker
                 EdittingID = _SelectedChart.ID;
                 ChartNameTBox.Text = ChartNames[_SelectedChart.ID];
                 ChartDesignerNameTBox.Text = ChartDesigners[_SelectedChart.ID];
-                ChartJudgeTBox.Text = ChartJudges[_SelectedChart.ID];
+                ChartJudgeComboBox.SelectedValue = ChartJudges[_SelectedChart.ID];
                 ChartLevelTBox.Text = ChartLevels[_SelectedChart.ID].ToString();
                 ChartStandardBPMTBox.Text = ChartStandardBPMs[_SelectedChart.ID].ToString();
                 ChartOffsetTBox.Text = ChartOffsets[_SelectedChart.ID].ToString();
@@ -201,7 +215,7 @@ namespace BeatapChartMaker
                     SelectedMeasureIndex = -1;
                     PenMode = -1;
                     ChartNameTBox.Text = "";
-                    ChartJudgeTBox.Text = "";
+                    ChartJudgeComboBox.SelectedValue = null;
                     ChartDesignerNameTBox.Text = "";
                     ChartStandardBPMTBox.Text = "";
                     ChartLevelTBox.Text = "";
@@ -251,7 +265,7 @@ namespace BeatapChartMaker
 
         private void DoActionButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionSelectComboBox.SelectedValue.ToString() != "")
+            if (_SelectedChart!=null && ActionSelectComboBox.SelectedValue!=null)
             {
                 if (ActionSelectComboBox.SelectedValue.ToString() == "末尾に小節を作成")
                 {
@@ -631,10 +645,16 @@ namespace BeatapChartMaker
         
         private void SaveChartButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_SelectedChart != null)
+            if (_SelectedChart != null && ChartJudgeComboBox.SelectedValue.ToString() != "")
             {
+                ChartNames[_SelectedChart.ID] = ChartName;
+                ChartLevels[_SelectedChart.ID] = ChartLevel;
+                ChartDesigners[_SelectedChart.ID] = ChartDesignerName;
+                ChartStandardBPMs[_SelectedChart.ID] = ChartStandardBPM;
+                ChartOffsets[_SelectedChart.ID] = ChartOffset;
+                ChartJudges[_SelectedChart.ID] = ChartJudgeComboBox.SelectionBoxItem.ToString();
                 StreamWriter cfs = new StreamWriter(@ChartPaths[_SelectedChart.ID], false, System.Text.Encoding.Default);
-                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset.ToString() + "," + ChartJudge + ",\n");
+                cfs.Write(ChartName + "," + ChartLevel.ToString() + "," + ChartDesignerName + "," + ChartStandardBPM.ToString() + "," + ChartOffset.ToString() + "," + ChartJudgeComboBox.SelectedValue.ToString() + ",\n");
                 for(int i = 0; i < ChartsOptions[_SelectedChart.ID].Count(); i++)
                 {
                     cfs.Write(ChartsOptions[_SelectedChart.ID][i].Item1+","+ ChartsOptions[_SelectedChart.ID][i].Item2+"\n");
@@ -896,19 +916,32 @@ namespace BeatapChartMaker
                             if (startpos == null)
                             {
                                 startpos = Tuple.Create<int, int>(measure, time);
-                                StartLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
                             }
                             else {
-                                startpos = null;
+                                StartLongNotePoint.Add(Tuple.Create<int, int, int>(startpos.Item1, startpos.Item2, lane));
                                 FinishLongNotePoint.Add(Tuple.Create<int, int, int>(measure, time, lane));
+                                startpos = null;
                             }
                         }
                         else if(startpos != null)
                         {
-                            DButtons[measure][time][lane].Background = new SolidColorBrush(Color.FromRgb(Convert.ToByte(ColorBrush[3].Item1), Convert.ToByte(ColorBrush[3].Item2), Convert.ToByte(ColorBrush[3].Item3)));
+                            if (DButtons[measure][time][lane].Background.ToString() == "#FF000000")
+                            {
+                                DButtons[measure][time][lane].Background = new SolidColorBrush(Color.FromRgb(Convert.ToByte(ColorBrush[3].Item1), Convert.ToByte(ColorBrush[3].Item2), Convert.ToByte(ColorBrush[3].Item3)));
+                            }
+                            else
+                            {
+                                MessageBox.Show("第" + (startpos.Item1 + 1).ToString() + "小節の第" + (startpos.Item2 + 1).ToString() + "拍の" + (lane + 1).ToString() + "にロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
+                                startpos = null;
+                            }
                         }
                     }
                 }
+                if(startpos != null)
+                {
+                    MessageBox.Show("第" + (startpos.Item1+1).ToString() + "小節の第" + (startpos.Item2+1).ToString() + "拍の" + (lane+1).ToString() + "にロングノートが開始点として検出されましたが有効な範囲に終点を見つけられませんでした.\n開始点を削除し保存してから再展開してください.");
+                }
+                startpos = null;
             }
         }
         private void ClearAllVariable()
@@ -931,7 +964,7 @@ namespace BeatapChartMaker
             AudioFilePathTBox.Text = "";
             ThumbFilePathTBox.Text = "";
             ChartNameTBox.Text = "";
-            ChartJudgeTBox.Text = "";
+            ChartJudgeComboBox.SelectedValue = "";
             ChartDesignerNameTBox.Text = "";
             ChartStandardBPMTBox.Text = "";
             ChartLevelTBox.Text = "";
@@ -1095,11 +1128,6 @@ namespace BeatapChartMaker
         private void ChartNameTBox_Changed(object sender, TextChangedEventArgs e)
         {
             ChartName = ChartNameTBox.Text.ToString();
-        }
-
-        private void ChartJudgeTBox_Changed(object sender, TextChangedEventArgs e)
-        {
-            ChartJudge = ChartJudgeTBox.Text.ToString();
         }
 
         private void ChartLevelTBox_Changed(object sender, TextChangedEventArgs e)
