@@ -109,7 +109,7 @@ namespace BeatapChartMaker
                 {
                     StreamWriter cfs = new StreamWriter(@System.IO.Path.GetFullPath("config.ini"), false, System.Text.Encoding.Default);
                     cfs.Close();
-                }   
+                }
                 ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
                 rwIni.WriteString("Path", "DefaultWorkSpace", "");
             }
@@ -135,6 +135,14 @@ namespace BeatapChartMaker
             if (File.Exists(System.IO.Path.GetFullPath("config.ini"))){
                 ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
                 DefaultWorkSpacePath = rwIni.GetStringData("Path", "DefaultWorkSpace", "");
+                String[] sepv = rwIni.GetStringData("ColorTheme", "SingleNote", "").Split(',');
+                ColorBrush[0] = Tuple.Create<int, int, int>(int.Parse(sepv[0]), int.Parse(sepv[1]), int.Parse(sepv[2]));
+                sepv = rwIni.GetStringData("ColorTheme", "LongNote", "").Split(',');
+                ColorBrush[1] = Tuple.Create<int, int, int>(int.Parse(sepv[0]), int.Parse(sepv[1]), int.Parse(sepv[2]));
+                sepv = rwIni.GetStringData("ColorTheme", "DoubleNote", "").Split(',');
+                ColorBrush[2] = Tuple.Create<int, int, int>(int.Parse(sepv[0]), int.Parse(sepv[1]), int.Parse(sepv[2]));
+                sepv = rwIni.GetStringData("ColorTheme", "LongMidNote", "").Split(',');
+                ColorBrush[3] = Tuple.Create<int, int, int>(int.Parse(sepv[0]), int.Parse(sepv[1]), int.Parse(sepv[2]));
             }
             else
             {
@@ -142,6 +150,10 @@ namespace BeatapChartMaker
                 cfs.Close();
                 ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
                 rwIni.WriteString("Path", "DefaultWorkSpace", "");
+                rwIni.WriteString("ColorTheme", "SingleNote", "0,54,255");
+                rwIni.WriteString("ColorTheme", "LongNote", "0,210,131");
+                rwIni.WriteString("ColorTheme", "DoubleNote", "255,13,13");
+                rwIni.WriteString("ColorTheme", "LongMidNote", "0,170,91");
             }
         }
 

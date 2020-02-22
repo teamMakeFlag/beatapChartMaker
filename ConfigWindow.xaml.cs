@@ -69,6 +69,10 @@ namespace BeatapChartMaker
                 }
                 ReadWriteIni rwIni = new ReadWriteIni(System.IO.Path.GetFullPath("config.ini"));
                 rwIni.WriteString("Path", "DefaultWorkSpace", DWFTBox.Text);
+                rwIni.WriteString("ColorTheme", "SingleNote", localcbs[0].Item1.ToString()+","+localcbs[0].Item1.ToString()+","+localcbs[0].Item3.ToString());
+                rwIni.WriteString("ColorTheme", "LongNote", localcbs[1].Item1.ToString() + "," + localcbs[1].Item1.ToString() + "," + localcbs[1].Item3.ToString());
+                rwIni.WriteString("ColorTheme", "DoubleNote", localcbs[2].Item1.ToString() + "," + localcbs[2].Item1.ToString() + "," + localcbs[2].Item3.ToString());
+                rwIni.WriteString("ColorTheme", "LongMidNote", localcbs[3].Item1.ToString() + "," + localcbs[3].Item1.ToString() + "," + localcbs[3].Item3.ToString());
                 this.Topmost = false;
                 if (((MainWindow)Owner)._SelectedChart != null) ((MainWindow)Owner).DrawChartData();
                 Owner.Activate();
